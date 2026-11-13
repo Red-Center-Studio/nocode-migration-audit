@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Red-Center-Studio/nocode-migration-audit/spec/app-spec.schema.json",
+  "title": "App spec",
+  "description": "A neutral description of an app built on a no-code or AI app builder: data, enums, roles, permissions, pages, workflows, integrations and anything the reader could not resolve. Written by a reader, consumed by a generator. Neither side needs to know about the other.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specVersion", "source", "entities", "enums", "roles", "permissions", "pages", "workflows", "integrations", "unknowns"],
+  "properties": {
+    "specVersion": { "const": "0.1" },
+    "source": { "$ref": "#/$defs/source" },
+    "entities": { "type": "array", "items": { "$ref": "#/$defs/entity" } },
+    "enums": { "type": "array", "items": { "$ref": "#/$defs/enum" } },
+    "roles": { "$ref": "#/$defs/roles" },
+    "permissions": { "type": "array", "items": { "$ref": "#/$defs/permissionRule" } },
+    "pages": { "type": "array", "items": { "$ref": "#/$defs/page" } },
+    "workflows": { "type": "array", "items": { "$ref": "#/$defs/workflow" } },
+    "integrations": { "$ref": "#/$defs/integrations" },
+    "unknowns": { "type": "array", "items": { "$ref": "#/$defs/unknown" } }
+  },
+  "$defs": {
+    "key": {
+      "description": "Stable snake_case identifier used inside this spec.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$"
+    },
+    "condition": {
+      "description": "A condition as the source shows it. `text` is for people; `source` is the platform's own machine form (for Bubble®, the expression JSON) and is the one to trust when the two differ.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text"],
+      "properties": {
+        "text": { "type": "string" },
+        "source": {}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["platform", "app", "readAt", "reader"],
+      "properties": {
+        "platform": { "enum": ["bubble", "lovable", "bolt", "base44", "replit", "other"] },
+        "app": { "type": "string", "minLength": 1 },
+        "appVersion": { "type": "string", "description": "For Bubble: the editor version read, usually `test`." },
+        "readAt": { "type": "string", "format": "date-time" },
+        "reader": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "version"],
+          "properties": {
+            "name": { "type": "string" },
+            "version": { "type": "string" }
+          }
+        },
+        "plan": { "type": "object", "description": "What the source plan permits, as reported by the platform." },
+        "writeCallsMade": { "const": 0, "description": "Readers never write. A spec that records any write call is invalid." }
+      }
+    },
+    "fieldType": {
+      "enum": ["text", "number", "boolean", "date", "date_range", "number_range", "date_interval", "file", "image", "geographic_address", "email", "reference", "enum", "unknown"]
+    },
+    "field": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "type", "list"],
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "sourceKey": { "type": "string", "description": "The field id in the source platform." },
+        "type": { "$ref": "#/$defs/fieldType" },
+        "list": { "type": "boolean" },
+        "ref": { "$ref": "#/$defs/key", "description": "Entity key, when type is `reference`." },
+        "enum": { "$ref": "#/$defs/key", "description": "Enum key, when type is `enum`." },
+        "builtIn": { "type": "boolean", "description": "Created by the platform (for example created date, creator, slug)." },
+        "notes": { "type": "string" }
+      },
+      "allOf": [
+        { "if": { "properties": { "type": { "const": "reference" } } }, "then": { "required": ["ref"] } },
+        { "if": { "properties": { "type": { "const": "enum" } } }, "then": { "required": ["enum"] } }
+      ]
+    },
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "fields"],
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "sourceId": { "type": "string" },
+        "isUser": { "type": "boolean", "description": "The platform's built-in user or account type." },
+        "fields": { "type": "array", "items": { "$ref": "#/$defs/field" } },
+        "notes": { "type": "string" }
+      }
+    },
+    "enum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "values"],
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "sourceId": { "type": "string" },
+        "values": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["key", "label"],
+            "properties": {
+              "key": { "type": "string", "minLength": 1 },
+              "label": { "type": "string" },
+              "attributes": { "type": "object" }
+            }
+          }
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "type"],
+            "properties": { "key": { "type": "string" }, "type": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detected"],
+      "properties": {
+        "detected": { "type": "boolean", "description": "True when the reader found a role field on the user entity." },
+        "entity": { "$ref": "#/$defs/key" },
+        "field": { "$ref": "#/$defs/key" },
+        "enum": { "$ref": "#/$defs/key" },
+        "values": { "type": "array", "items": { "type": "string" } },
+        "emptyMeans": { "type": "string", "description": "What a user with no role can do, if the source shows it (for example `pending approval`)." },
+        "notes": { "type": "string" }
+      }
+    },
+    "permissionRule": {
+      "description": "One read-access rule on one entity. Platforms like Bubble express who may see and search data this way; write access lives in page guards and workflow conditions.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["entity", "name", "isDefault", "allows"],
+      "properties": {
+        "entity": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "sourceId": { "type": "string" },
+        "isDefault": { "type": "boolean", "description": "The rule that applies when no other rule matches." },
+        "condition": { "$ref": "#/$defs/condition" },
+        "allows": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["view", "search"],
+          "properties": {
+            "view": { "type": "boolean", "description": "May see records (all fields when `fields` is absent)." },
+            "fields": { "type": "array", "items": { "type": "string" }, "description": "Field keys visible under this rule." },
+            "search": { "type": "boolean" },
+            "searchableFields": { "type": "array", "items": { "type": "string" } },
+            "viewFiles": { "type": "boolean" },
+            "autoSaveFields": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "pageGuard": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition", "effect"],
+      "properties": {
+        "condition": { "$ref": "#/$defs/condition" },
+        "effect": { "enum": ["redirect", "hide", "other"] },
+        "to": { "type": "string", "description": "Page key the user is sent to." },
+        "sourceId": { "type": "string" }
+      }
+    },
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "kind"],
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "kind": { "enum": ["page", "mobile_view", "reusable", "popup", "other"] },
+        "sourceId": { "type": "string" },
+        "route": { "type": "string", "description": "Suggested route in the rebuilt app." },
+        "title": { "type": "string" },
+        "access": { "type": "string", "description": "Who can open it, in plain words, as far as the guards show." },
+        "guards": { "type": "array", "items": { "$ref": "#/$defs/pageGuard" } },
+        "usesReusables": { "type": "array", "items": { "$ref": "#/$defs/key" } },
+        "dataShown": { "type": "array", "items": { "$ref": "#/$defs/key" }, "description": "Entity keys the page lists or displays." },
+        "inputs": { "type": "array", "items": { "type": "string" }, "description": "Form inputs, by label or element name." },
+        "state": {
+          "type": "array",
+          "description": "Page-level state (Bubble custom states).",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "type"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string", "description": "A field type or entity key." },
+              "list": { "type": "boolean" }
+            }
+          }
+        },
+        "workflows": { "type": "array", "items": { "$ref": "#/$defs/key" } },
+        "notes": { "type": "string" }
+      }
+    },
+    "stepType": {
+      "enum": ["create", "update", "delete", "delete_list", "update_current_user", "sign_up", "log_in", "log_out", "reset_password", "update_credentials", "send_password_reset", "send_email", "navigate", "open_url", "api_call", "schedule_backend", "trigger_backend", "display_data", "set_state", "show", "hide", "reset", "pause", "refresh", "other"]
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "type"],
+      "properties": {
+        "order": { "type": "integer", "minimum": 1 },
+        "type": { "$ref": "#/$defs/stepType" },
+        "sourceType": { "type": "string", "description": "The platform's own action name." },
+        "sourceId": { "type": "string" },
+        "entity": { "$ref": "#/$defs/key" },
+        "target": { "type": "string", "description": "Which record, page, element or endpoint the step acts on, in plain words." },
+        "sets": {
+          "description": "Fields the step writes on `entity`. A static value goes in `value.text` with no `source`; `clear: true` empties the field.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["field"],
+            "properties": {
+              "field": { "type": "string" },
+              "value": { "$ref": "#/$defs/condition" },
+              "clear": { "const": true }
+            },
+            "oneOf": [{ "required": ["value"] }, { "required": ["clear"] }]
+          }
+        },
+        "inputs": {
+          "description": "Other properties a rebuild needs: the record to change, the list to delete, a data source, an endpoint, a schedule date. Never secrets or typed-in credentials.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name", "value"],
+            "properties": {
+              "name": { "type": "string" },
+              "value": { "$ref": "#/$defs/condition" }
+            }
+          }
+        },
+        "condition": { "$ref": "#/$defs/condition", "description": "Only the step's own run condition (Bubble: Only when)." },
+        "notes": { "type": "string" }
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "name", "scope", "trigger", "steps"],
+      "properties": {
+        "key": { "$ref": "#/$defs/key" },
+        "name": { "type": "string" },
+        "sourceId": { "type": "string" },
+        "scope": { "enum": ["page", "reusable", "backend", "scheduled", "data_trigger"] },
+        "page": { "$ref": "#/$defs/key" },
+        "trigger": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["type"],
+          "properties": {
+            "type": { "enum": ["button_click", "page_load", "input_change", "element_event", "error", "api_endpoint", "schedule", "data_change", "user_event", "other"] },
+            "element": { "type": "string" },
+            "sourceType": { "type": "string" },
+            "condition": { "$ref": "#/$defs/condition" },
+            "publicEndpoint": { "type": "boolean" },
+            "ignoresPermissions": { "type": "boolean", "description": "Runs with permission rules switched off (Bubble: ignore privacy rules)." }
+          }
+        },
+        "steps": { "type": "array", "items": { "$ref": "#/$defs/step" } },
+        "isCore": { "type": "boolean", "description": "The reader judged this a core business flow worth a server-side rebuild with tests." },
+        "notes": { "type": "string" }
+      }
+    },
+    "integrations": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["plugins", "apiCalls"],
+      "properties": {
+        "plugins": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "name", "mapping"],
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "mapping": { "enum": ["built_in", "replaceable", "unknown"], "description": "`built_in`: the destination covers it natively. `replaceable`: a known library or API does the same job. `unknown`: needs a person to look." },
+              "replacement": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          }
+        },
+        "apiCalls": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "collection": { "type": "string" },
+              "method": { "type": "string" },
+              "host": { "type": "string", "description": "Host only. Never paths with tokens, never keys." },
+              "needsSecret": { "type": "boolean" },
+              "notes": { "type": "string" }
+            }
+          }
+        },
+        "email": { "type": "string", "description": "How the app sends email, if the reader could tell." },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["entity", "field"],
+            "properties": {
+              "entity": { "$ref": "#/$defs/key" },
+              "field": { "$ref": "#/$defs/key" },
+              "kind": { "enum": ["file", "image"] }
+            }
+          }
+        }
+      }
+    },
+    "unknown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["where", "what"],
+      "properties": {
+        "where": { "type": "string" },
+        "what": { "type": "string" },
+        "why": { "type": "string" },
+        "severity": { "enum": ["info", "needs_review", "blocks_rebuild"] }
+      }
+    }
+  }
+}

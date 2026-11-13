@@ -1,0 +1,24 @@
+{
+  "name": "nocode-migration-audit",
+  "version": "0.1.1",
+  "description": "Free audit skill for Claude: reads a no-code app and writes a neutral app spec and a plain-language audit report.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "typescript": "^5.8.0",
+    "vitest": "^3.2.0"
+  }
+}

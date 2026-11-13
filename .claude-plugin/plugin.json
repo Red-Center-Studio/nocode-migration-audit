@@ -1,0 +1,10 @@
+{
+  "name": "nocode-migration-audit",
+  "version": "0.1.1",
+  "description": "Read-only audit of a no-code app before porting it to code. Writes a neutral app spec and a plain-language report.",
+  "author": { "name": "Red Center Studio", "url": "https://redcenterstudio.com" },
+  "homepage": "https://github.com/Red-Center-Studio/nocode-migration-audit",
+  "repository": "https://github.com/Red-Center-Studio/nocode-migration-audit",
+  "license": "MIT",
+  "keywords": ["no-code", "audit", "migration", "cloudflare", "app-spec"]
+}

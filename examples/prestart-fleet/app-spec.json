@@ -1,0 +1,1712 @@
+{
+  "specVersion": "0.1",
+  "source": {
+    "platform": "bubble",
+    "app": "prestart-fleet",
+    "readAt": "2026-11-13T08:11:20Z",
+    "reader": { "name": "nocode-migration-audit", "version": "0.1.0" },
+    "plan": {
+      "planDisplay": "Template",
+      "api": true,
+      "scheduler": true,
+      "dataTrigger": true,
+      "recurringFrequencies": ["none"],
+      "maxSchedulesPerThing": 0,
+      "maxBranches": 0,
+      "exposesWfApi": true
+    },
+    "writeCallsMade": 0
+  },
+  "entities": [
+    {
+      "key": "user",
+      "name": "User",
+      "sourceId": "user",
+      "isUser": true,
+      "fields": [
+        { "key": "full_name", "name": "Full Name", "sourceKey": "full_name_text", "type": "text", "list": false },
+        { "key": "is_demo", "name": "Is Demo", "sourceKey": "is_demo_boolean", "type": "boolean", "list": false },
+        { "key": "role", "name": "Role", "sourceKey": "role_option_role", "type": "enum", "enum": "role", "list": false },
+        { "key": "email", "name": "email", "sourceKey": "email", "type": "email", "list": false, "builtIn": true },
+        { "key": "updated_at", "name": "Modified Date", "sourceKey": "Modified Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "created_at", "name": "Created Date", "sourceKey": "Created Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "slug", "name": "Slug", "sourceKey": "Slug", "type": "text", "list": false, "builtIn": true }
+      ],
+      "notes": "Bubble returned no Created By field for the user type, so there is no created_by here."
+    },
+    {
+      "key": "app_settings",
+      "name": "App Settings",
+      "sourceId": "custom.app_settings",
+      "fields": [
+        { "key": "business_name", "name": "Business Name", "sourceKey": "business_name_text", "type": "text", "list": false },
+        { "key": "setup_help_url", "name": "Setup Help URL", "sourceKey": "setup_help_url_text", "type": "text", "list": false },
+        { "key": "show_setup_offer", "name": "Show Setup Offer", "sourceKey": "show_setup_offer_boolean", "type": "boolean", "list": false },
+        { "key": "support_email", "name": "Support Email", "sourceKey": "support_email_text", "type": "text", "list": false },
+        { "key": "created_by", "name": "Creator", "sourceKey": "Created By", "type": "reference", "ref": "user", "list": false, "builtIn": true },
+        { "key": "updated_at", "name": "Modified Date", "sourceKey": "Modified Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "created_at", "name": "Created Date", "sourceKey": "Created Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "slug", "name": "Slug", "sourceKey": "Slug", "type": "text", "list": false, "builtIn": true }
+      ],
+      "notes": "A single settings record, created on the setup page the first time an admin opens it."
+    },
+    {
+      "key": "check",
+      "name": "Check",
+      "sourceId": "custom.check",
+      "fields": [
+        { "key": "driver_name", "name": "Driver Name", "sourceKey": "driver_name_text", "type": "text", "list": false },
+        { "key": "driver", "name": "Driver", "sourceKey": "driver_user", "type": "reference", "ref": "user", "list": false },
+        { "key": "failed_items", "name": "Failed Items", "sourceKey": "failed_items_text", "type": "text", "list": false },
+        { "key": "notes", "name": "Notes", "sourceKey": "notes_text", "type": "text", "list": false },
+        { "key": "odometer", "name": "Odometer", "sourceKey": "odometer_number", "type": "number", "list": false },
+        { "key": "passed", "name": "Passed", "sourceKey": "passed_boolean", "type": "boolean", "list": false },
+        { "key": "photo", "name": "Photo", "sourceKey": "photo_image", "type": "image", "list": false },
+        { "key": "vehicle", "name": "Vehicle", "sourceKey": "vehicle_custom_vehicle", "type": "reference", "ref": "vehicle", "list": false },
+        { "key": "vehicle_name", "name": "Vehicle Name", "sourceKey": "vehicle_name_text", "type": "text", "list": false },
+        { "key": "created_by", "name": "Creator", "sourceKey": "Created By", "type": "reference", "ref": "user", "list": false, "builtIn": true },
+        { "key": "updated_at", "name": "Modified Date", "sourceKey": "Modified Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "created_at", "name": "Created Date", "sourceKey": "Created Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "slug", "name": "Slug", "sourceKey": "Slug", "type": "text", "list": false, "builtIn": true }
+      ],
+      "notes": "driver_name and vehicle_name are copies taken when the check is saved, so history still reads correctly if the user or vehicle changes. failed_items is a plain text list of the checklist labels that were not ticked."
+    },
+    {
+      "key": "checklist_item",
+      "name": "Checklist Item",
+      "sourceId": "custom.checklist_item",
+      "fields": [
+        { "key": "active", "name": "Active", "sourceKey": "active_boolean", "type": "boolean", "list": false },
+        { "key": "label", "name": "Label", "sourceKey": "label_text", "type": "text", "list": false },
+        { "key": "sort", "name": "Sort", "sourceKey": "sort_number", "type": "number", "list": false },
+        { "key": "created_by", "name": "Creator", "sourceKey": "Created By", "type": "reference", "ref": "user", "list": false, "builtIn": true },
+        { "key": "updated_at", "name": "Modified Date", "sourceKey": "Modified Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "created_at", "name": "Created Date", "sourceKey": "Created Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "slug", "name": "Slug", "sourceKey": "Slug", "type": "text", "list": false, "builtIn": true }
+      ]
+    },
+    {
+      "key": "defect",
+      "name": "Defect",
+      "sourceId": "custom.defect",
+      "fields": [
+        { "key": "description", "name": "Description", "sourceKey": "description_text", "type": "text", "list": false },
+        { "key": "fixed_at", "name": "Fixed At", "sourceKey": "fixed_at_date", "type": "date", "list": false },
+        { "key": "photo", "name": "Photo", "sourceKey": "photo_image", "type": "image", "list": false },
+        { "key": "reported_by_name", "name": "Reported By Name", "sourceKey": "reported_by_name_text", "type": "text", "list": false },
+        { "key": "reported_by", "name": "Reported By", "sourceKey": "reported_by_user", "type": "reference", "ref": "user", "list": false },
+        { "key": "severity", "name": "Severity", "sourceKey": "severity_option_severity", "type": "enum", "enum": "severity", "list": false },
+        { "key": "status", "name": "Status", "sourceKey": "status_option_defect_status", "type": "enum", "enum": "defect_status", "list": false },
+        { "key": "vehicle", "name": "Vehicle", "sourceKey": "vehicle_custom_vehicle", "type": "reference", "ref": "vehicle", "list": false },
+        { "key": "vehicle_name", "name": "Vehicle Name", "sourceKey": "vehicle_name_text", "type": "text", "list": false },
+        { "key": "workshop_notes", "name": "Workshop Notes", "sourceKey": "workshop_notes_text", "type": "text", "list": false },
+        { "key": "created_by", "name": "Creator", "sourceKey": "Created By", "type": "reference", "ref": "user", "list": false, "builtIn": true },
+        { "key": "updated_at", "name": "Modified Date", "sourceKey": "Modified Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "created_at", "name": "Created Date", "sourceKey": "Created Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "slug", "name": "Slug", "sourceKey": "Slug", "type": "text", "list": false, "builtIn": true }
+      ],
+      "notes": "Defects have no link back to the check that raised them. The check's failed items are copied into the defect description as text."
+    },
+    {
+      "key": "vehicle",
+      "name": "Vehicle",
+      "sourceId": "custom.vehicle",
+      "fields": [
+        { "key": "name", "name": "Name", "sourceKey": "name_text", "type": "text", "list": false },
+        { "key": "notes", "name": "Notes", "sourceKey": "notes_text", "type": "text", "list": false },
+        { "key": "odometer", "name": "Odometer", "sourceKey": "odometer_number", "type": "number", "list": false },
+        { "key": "rego_due", "name": "Rego Due", "sourceKey": "rego_due_date", "type": "date", "list": false },
+        { "key": "rego", "name": "Rego", "sourceKey": "rego_text", "type": "text", "list": false },
+        { "key": "service_due", "name": "Service Due", "sourceKey": "service_due_date", "type": "date", "list": false },
+        { "key": "status", "name": "Status", "sourceKey": "status_option_vehicle_status", "type": "enum", "enum": "vehicle_status", "list": false },
+        { "key": "vehicle_type", "name": "Vehicle Type", "sourceKey": "vehicle_type_text", "type": "text", "list": false },
+        { "key": "created_by", "name": "Creator", "sourceKey": "Created By", "type": "reference", "ref": "user", "list": false, "builtIn": true },
+        { "key": "updated_at", "name": "Modified Date", "sourceKey": "Modified Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "created_at", "name": "Created Date", "sourceKey": "Created Date", "type": "date", "list": false, "builtIn": true },
+        { "key": "slug", "name": "Slug", "sourceKey": "Slug", "type": "text", "list": false, "builtIn": true }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "key": "role",
+      "name": "Role",
+      "sourceId": "option.role",
+      "values": [
+        { "key": "admin", "label": "Admin" },
+        { "key": "workshop", "label": "Workshop" },
+        { "key": "driver", "label": "Driver" }
+      ]
+    },
+    {
+      "key": "severity",
+      "name": "Severity",
+      "sourceId": "option.severity",
+      "values": [
+        { "key": "minor", "label": "Minor" },
+        { "key": "major", "label": "Major" },
+        { "key": "critical__do_not_drive_", "label": "Critical (do not drive)" }
+      ]
+    },
+    {
+      "key": "defect_status",
+      "name": "Defect Status",
+      "sourceId": "option.defect_status",
+      "values": [
+        { "key": "open", "label": "Open" },
+        { "key": "in_progress", "label": "In progress" },
+        { "key": "fixed", "label": "Fixed" }
+      ]
+    },
+    {
+      "key": "vehicle_status",
+      "name": "Vehicle Status",
+      "sourceId": "option.vehicle_status",
+      "values": [
+        { "key": "in_service", "label": "In service" },
+        { "key": "off_road", "label": "Off road" }
+      ]
+    }
+  ],
+  "roles": {
+    "detected": true,
+    "entity": "user",
+    "field": "role",
+    "enum": "role",
+    "values": ["admin", "workshop", "driver"],
+    "emptyMeans": "A signed-up user with no role is waiting for an admin to assign one. Privacy rules give them no access to checks, defects, vehicles or checklist items, and the check, defects, fleet and history pages send them to the home page. The setup page's Remove access button clears a user's role to put them back in this state.",
+    "notes": "Privacy rules test 'Role is not empty', 'Role is Admin' and 'Role is not Driver'. The user's own is_demo flag separates demo accounts from real ones in several conditions."
+  },
+  "permissions": [
+    {
+      "entity": "user",
+      "name": "Admins see all users",
+      "sourceId": "admins_see_all_users_",
+      "isDefault": false,
+      "condition": {
+        "text": "Current User's Role is Admin",
+        "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["full_name", "is_demo", "role", "created_at", "updated_at", "slug"],
+        "search": true,
+        "searchableFields": ["full_name", "is_demo", "role", "created_at", "updated_at", "slug"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "user",
+      "name": "User's own data",
+      "sourceId": "users_own_data",
+      "isDefault": false,
+      "condition": {
+        "text": "This User is Current User",
+        "source": {"next":{"args":{"type":"CurrentUser"},"type":"Message","name":"equals"},"type":"InjectedValue"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["full_name", "is_demo", "role", "created_at", "updated_at", "slug"],
+        "search": true,
+        "searchableFields": ["full_name", "is_demo", "role", "created_at", "updated_at", "slug"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "user",
+      "name": "everyone",
+      "sourceId": "default",
+      "isDefault": true,
+      "allows": {
+        "view": false,
+        "fields": [],
+        "search": true,
+        "searchableFields": ["is_demo", "role"],
+        "viewFiles": false,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "app_settings",
+      "name": "Admins",
+      "sourceId": "admins_",
+      "isDefault": false,
+      "condition": {
+        "text": "Current User's Role is Admin",
+        "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["business_name", "setup_help_url", "show_setup_offer", "support_email", "created_at", "updated_at", "slug", "created_by"],
+        "search": true,
+        "searchableFields": ["business_name", "setup_help_url", "show_setup_offer", "support_email", "created_at", "updated_at", "slug", "created_by"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "app_settings",
+      "name": "everyone",
+      "sourceId": "default",
+      "isDefault": true,
+      "allows": {
+        "view": true,
+        "fields": ["business_name", "support_email"],
+        "search": true,
+        "searchableFields": [],
+        "viewFiles": false,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "check",
+      "name": "Drivers see their own checks",
+      "sourceId": "drivers_see_their_own_checks_",
+      "isDefault": false,
+      "condition": {
+        "text": "This Check's Driver is Current User",
+        "source": {"next":{"next":{"args":{"type":"CurrentUser"},"type":"Message","name":"equals"},"type":"Message","name":"driver_user"},"type":"InjectedValue"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["driver_name", "driver", "failed_items", "notes", "odometer", "passed", "photo", "vehicle", "vehicle_name", "created_at", "updated_at", "slug", "created_by"],
+        "search": true,
+        "searchableFields": ["driver_name", "driver", "failed_items", "notes", "odometer", "passed", "photo", "vehicle", "vehicle_name", "created_at", "updated_at", "slug", "created_by"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "check",
+      "name": "Admins and workshop see all checks",
+      "sourceId": "team_members_",
+      "isDefault": false,
+      "condition": {
+        "text": "Current User's Role is not empty and (Current User's Role is not Driver)",
+        "source": {"next":{"next":{"next":{"args":{"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"driver"},"type":"OneOptionValue"},"type":"Message","name":"not_equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"},"type":"Message","name":"and_"},"type":"Message","name":"is_not_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["driver_name", "driver", "failed_items", "notes", "odometer", "passed", "photo", "vehicle", "vehicle_name", "created_at", "updated_at", "slug", "created_by"],
+        "search": true,
+        "searchableFields": ["driver_name", "driver", "failed_items", "notes", "odometer", "passed", "photo", "vehicle", "vehicle_name", "created_at", "updated_at", "slug", "created_by"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "check",
+      "name": "everyone",
+      "sourceId": "default",
+      "isDefault": true,
+      "allows": { "view": false, "fields": [], "search": false, "searchableFields": [], "viewFiles": false, "autoSaveFields": [] }
+    },
+    {
+      "entity": "checklist_item",
+      "name": "Team members see checklist items",
+      "sourceId": "team_members_see_checklist_items_",
+      "isDefault": false,
+      "condition": {
+        "text": "Current User's Role is not empty",
+        "source": {"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["active", "label", "sort", "created_at", "updated_at", "slug", "created_by"],
+        "search": true,
+        "searchableFields": ["active", "label", "sort", "created_at", "updated_at", "slug", "created_by"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "checklist_item",
+      "name": "everyone",
+      "sourceId": "default",
+      "isDefault": true,
+      "allows": { "view": false, "fields": [], "search": false, "searchableFields": [], "viewFiles": false, "autoSaveFields": [] }
+    },
+    {
+      "entity": "defect",
+      "name": "Team members",
+      "sourceId": "team_members_",
+      "isDefault": false,
+      "condition": {
+        "text": "Current User's Role is not empty",
+        "source": {"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["description", "fixed_at", "photo", "reported_by_name", "reported_by", "severity", "status", "vehicle", "vehicle_name", "workshop_notes", "created_at", "updated_at", "slug", "created_by"],
+        "search": true,
+        "searchableFields": ["description", "fixed_at", "photo", "reported_by_name", "reported_by", "severity", "status", "vehicle", "vehicle_name", "workshop_notes", "created_at", "updated_at", "slug", "created_by"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "defect",
+      "name": "everyone",
+      "sourceId": "default",
+      "isDefault": true,
+      "allows": { "view": false, "fields": [], "search": false, "searchableFields": [], "viewFiles": false, "autoSaveFields": [] }
+    },
+    {
+      "entity": "vehicle",
+      "name": "Team members",
+      "sourceId": "team_members_",
+      "isDefault": false,
+      "condition": {
+        "text": "Current User's Role is not empty",
+        "source": {"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+      },
+      "allows": {
+        "view": true,
+        "fields": ["name", "notes", "odometer", "rego_due", "rego", "service_due", "status", "vehicle_type", "created_at", "updated_at", "slug", "created_by"],
+        "search": true,
+        "searchableFields": ["name", "notes", "odometer", "rego_due", "rego", "service_due", "status", "vehicle_type", "created_at", "updated_at", "slug", "created_by"],
+        "viewFiles": true,
+        "autoSaveFields": []
+      }
+    },
+    {
+      "entity": "vehicle",
+      "name": "everyone",
+      "sourceId": "default",
+      "isDefault": true,
+      "allows": { "view": false, "fields": [], "search": false, "searchableFields": [], "viewFiles": false, "autoSaveFields": [] }
+    }
+  ],
+  "pages": [
+    {
+      "key": "reset_pw",
+      "name": "reset_pw",
+      "kind": "page",
+      "sourceId": "AAL",
+      "route": "/reset_pw",
+      "title": "Bubble | No-code apps",
+      "access": "Anyone with the link.",
+      "inputs": ["Input Password", "Input Confirm Password"],
+      "workflows": ["reset_pw_confirm"],
+      "notes": "Bubble's password reset page, reached from the reset email. The rebuilt app's auth library replaces it. The page title is still Bubble's default."
+    },
+    {
+      "key": "not_found",
+      "name": "404",
+      "kind": "page",
+      "sourceId": "AAU",
+      "route": "/404",
+      "title": "Bubble | No-code apps",
+      "access": "Anyone with the link.",
+      "workflows": [],
+      "notes": "Bubble's not-found page. The page name '404' is not a valid spec key, so the key is not_found. Static text only."
+    },
+    {
+      "key": "check",
+      "name": "check",
+      "kind": "page",
+      "sourceId": "bTGMO",
+      "route": "/check",
+      "title": "Pre-start check | PreStart",
+      "access": "Any signed-in user with a role (admin, workshop or driver). Users with no role, and signed-out visitors, are sent to the home page.",
+      "guards": [
+        {
+          "condition": {
+            "text": "Current User's Role is empty",
+            "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+          },
+          "effect": "redirect",
+          "to": "index",
+          "sourceId": "bTGQf"
+        }
+      ],
+      "usesReusables": ["nav"],
+      "dataShown": ["checklist_item"],
+      "inputs": ["Dropdown Choose your vehicle", "Input Odometer reading (km", "Checkbox I", "MultilineInput Anything not OK? Des", "Dropdown How serious is the p", "PictureUploader Add a photo (optiona"],
+      "state": [{ "name": "ok_items", "type": "checklist_item", "list": true }],
+      "workflows": ["check_submit", "check_guard", "check_toggle_item"],
+      "notes": "The checklist repeating group shows active checklist items sorted by sort. Ticked items are collected in the ok_items page state; on submit, failed items are the active items minus the ticked ones. The vehicle dropdown's data source was not read (the reader only reads repeating groups)."
+    },
+    {
+      "key": "defects",
+      "name": "defects",
+      "kind": "page",
+      "sourceId": "bTGMQ",
+      "route": "/defects",
+      "title": "Defect queue | PreStart",
+      "access": "Any signed-in user with a role, including drivers. Users with no role are sent to the home page.",
+      "guards": [
+        {
+          "condition": {
+            "text": "Current User's Role is empty",
+            "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+          },
+          "effect": "redirect",
+          "to": "index",
+          "sourceId": "bTGQi"
+        }
+      ],
+      "usesReusables": ["nav"],
+      "dataShown": ["defect"],
+      "inputs": ["MultilineInput Workshop notes: part"],
+      "workflows": ["defects_guard", "defects_start_work", "defects_mark_fixed"],
+      "notes": "Lists every defect whose status is not Fixed, newest first. The page is labelled WORKSHOP but the guard only blocks users with no role, so drivers can open it and use its buttons."
+    },
+    {
+      "key": "fleet",
+      "name": "fleet",
+      "kind": "page",
+      "sourceId": "bTGMS",
+      "route": "/fleet",
+      "title": "Fleet | PreStart",
+      "access": "Admins and workshop users. Drivers, users with no role and signed-out visitors are sent to the home page.",
+      "guards": [
+        {
+          "condition": {
+            "text": "Current User's Role is empty or (Current User's Role is Driver)",
+            "source": {"next":{"next":{"next":{"args":{"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"driver"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"},"type":"Message","name":"or_"},"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+          },
+          "effect": "redirect",
+          "to": "index",
+          "sourceId": "bTGQl"
+        }
+      ],
+      "usesReusables": ["nav"],
+      "dataShown": ["vehicle"],
+      "inputs": ["Input Vehicle name, e.g. U", "Input Registration plate", "Input Type, e.g. Ute, Van,", "Input Odometer (km)", "Date/TimePicker A", "Date/TimePicker B"],
+      "workflows": ["fleet_guard", "fleet_add_vehicle", "fleet_edit_vehicle", "fleet_cancel", "fleet_save_vehicle"],
+      "notes": "Lists all vehicles sorted by name, with a popup form (Popup Vehicle) for add and edit."
+    },
+    {
+      "key": "setup",
+      "name": "setup",
+      "kind": "page",
+      "sourceId": "bTGMU",
+      "route": "/setup",
+      "title": "Setup and team | PreStart",
+      "access": "Admins. Signed-out visitors are sent to the home page. Other signed-in users are sent away when the app runs on its bubbleapps.io address or once a real (non-demo) admin exists; before the first admin claims a copy on its own domain, any signed-in user can open it to claim admin.",
+      "guards": [
+        {
+          "condition": {
+            "text": "(Current User's Role is not Admin) and ((Website home URL contains prestart-fleet.bubbleapps.io) or ((Search for Users:count - Search for Users:count) > 0))",
+            "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"next":{"args":{"next":{"args":"prestart-fleet.bubbleapps.io","next":{"args":{"next":{"next":{"args":{"next":{"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"},"1":{"key":"is_demo_boolean","value":true,"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"next":{"args":0,"type":"Message","name":"greater_than"},"type":"Message","name":"minus"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"type":"Message","name":"or_"},"type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"},"type":"Message","name":"and_"},"type":"Message","name":"not_equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+          },
+          "effect": "redirect",
+          "to": "index",
+          "sourceId": "bTGQo"
+        },
+        {
+          "condition": {
+            "text": "Current User is logged out",
+            "source": {"next":{"type":"Message","name":"not_logged_in"},"type":"CurrentUser"}
+          },
+          "effect": "redirect",
+          "to": "index",
+          "sourceId": "bTGUr"
+        }
+      ],
+      "usesReusables": ["nav"],
+      "dataShown": ["checklist_item", "user"],
+      "inputs": ["Checkbox A", "Input Business name", "Input Support email", "Input Setup help URL (open", "Input Check item wording", "Input New check item, for "],
+      "workflows": ["setup_guard_role", "setup_create_settings", "setup_save_details", "setup_hide_help", "setup_show_help", "setup_open_help", "setup_make_driver", "setup_make_workshop", "setup_make_admin", "setup_remove_access", "setup_guard_signed_out", "setup_claim_admin", "setup_save_item", "setup_move_item_up", "setup_move_item_down", "setup_switch_off_item", "setup_switch_on_item", "setup_delete_item", "setup_add_item", "setup_add_standard_items"],
+      "notes": "Sections: first-time claim (claim admin and wipe demo data), launch checklist, business details (App Settings), checklist item editor (all items sorted by sort), setup help card, and team list (all users sorted by created date, with role buttons). In the guard JSON the two 'Search for Users:count' terms are different searches: all admins, and admins with is_demo = yes. The rendered text hides this. The App Settings group's data source was not read."
+    },
+    {
+      "key": "history",
+      "name": "history",
+      "kind": "page",
+      "sourceId": "bTGVb",
+      "route": "/history",
+      "title": "Check history | PreStart",
+      "access": "Any signed-in user with a role. Users with no role are sent to the home page. What each role sees is limited by privacy rules: drivers see only their own checks.",
+      "guards": [
+        {
+          "condition": {
+            "text": "Current User's Role is empty",
+            "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"}
+          },
+          "effect": "redirect",
+          "to": "index",
+          "sourceId": "bTGWR"
+        }
+      ],
+      "usesReusables": ["nav"],
+      "dataShown": ["check", "defect"],
+      "inputs": ["Dropdown All vehicles", "Date/TimePicker From date", "Date/TimePicker To date"],
+      "workflows": ["history_guard", "history_clear_filters"],
+      "notes": "Checks list: filtered by vehicle, from date and to date (to date plus one day), empty filters ignored, newest first. The rendered data source is only 'Search for Checks'; the filters are in the JSON. Fixed defects list: status Fixed, sorted by fixed_at, newest first."
+    },
+    {
+      "key": "terms",
+      "name": "terms",
+      "kind": "page",
+      "sourceId": "bTGXR",
+      "route": "/terms",
+      "title": "Terms of use | PreStart",
+      "access": "Anyone with the link.",
+      "usesReusables": ["nav"],
+      "workflows": [],
+      "notes": "Static text."
+    },
+    {
+      "key": "privacy",
+      "name": "privacy",
+      "kind": "page",
+      "sourceId": "bTGXb",
+      "route": "/privacy",
+      "title": "Privacy policy | PreStart",
+      "access": "Anyone with the link.",
+      "usesReusables": ["nav"],
+      "workflows": [],
+      "notes": "Static text."
+    },
+    {
+      "key": "account",
+      "name": "account",
+      "kind": "page",
+      "sourceId": "bTGXl",
+      "route": "/account",
+      "title": "Your account | PreStart",
+      "access": "Any signed-in user. Signed-out visitors are sent to the home page.",
+      "guards": [
+        {
+          "condition": {
+            "text": "Current User is logged out",
+            "source": {"next":{"type":"Message","name":"not_logged_in"},"type":"CurrentUser"}
+          },
+          "effect": "redirect",
+          "to": "index",
+          "sourceId": "bTGYN"
+        }
+      ],
+      "usesReusables": ["nav"],
+      "inputs": ["Input Your name", "Input Current password", "Input New password"],
+      "workflows": ["account_guard", "account_save_name", "account_change_password", "account_password_error"],
+      "notes": "Name and password changes are switched off on the bubbleapps.io address, so demo accounts cannot change them."
+    },
+    {
+      "key": "index",
+      "name": "index",
+      "kind": "page",
+      "sourceId": "bTGYf",
+      "route": "/",
+      "title": "PreStart | Fleet pre-start checks and defects",
+      "access": "Anyone with the link.",
+      "usesReusables": ["nav"],
+      "state": [
+        { "name": "demo_email", "type": "text", "list": false },
+        { "name": "demo_role", "type": "role", "list": false }
+      ],
+      "workflows": ["index_demo_driver", "index_demo_workshop", "index_demo_admin", "index_demo_driver_signup", "index_demo_workshop_signup", "index_demo_admin_signup", "index_open_terms", "index_open_privacy"],
+      "notes": "Marketing home page with a video and three 'Demo as' buttons that only work on the bubbleapps.io address. Sign-in and sign-up live in the Nav reusable."
+    },
+    {
+      "key": "home",
+      "name": "Home",
+      "kind": "mobile_view",
+      "sourceId": "bTHDZ",
+      "title": "Home",
+      "workflows": [],
+      "notes": "Native mobile view with no elements and no workflows."
+    },
+    {
+      "key": "nav",
+      "name": "Nav",
+      "kind": "reusable",
+      "sourceId": "bTGLw",
+      "inputs": ["Input Email", "Input Password", "Input Full name (new accou"],
+      "state": [{ "name": "message", "type": "text", "list": false }],
+      "workflows": ["nav_open_sign_in", "nav_log_out", "nav_go_check", "nav_go_defects", "nav_go_fleet", "nav_go_setup", "nav_sign_in", "nav_create_account", "nav_forgot_password", "nav_error_message", "nav_log_out_demo", "nav_redirect_to_claim", "nav_go_history", "nav_go_account"],
+      "notes": "Top navigation used on every page except reset_pw and 404. Holds the sign-in popup (sign in, create account, forgot password) and the menu buttons."
+    }
+  ],
+  "workflows": [
+    {
+      "key": "reset_pw_confirm",
+      "name": "Set new password",
+      "sourceId": "bTHDH",
+      "scope": "page",
+      "page": "reset_pw",
+      "trigger": { "type": "button_click", "element": "Button Confirm", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "other", "sourceType": "ResetPassword", "sourceId": "bTHDN", "target": "Current user's password", "notes": "New password and confirmation come from Input Password and Input Confirm Password." },
+        { "order": 2, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTHDO", "target": "index" }
+      ],
+      "notes": "The event caption says 'Button B is clicked'; the element it points at is Button Confirm."
+    },
+    {
+      "key": "check_submit",
+      "name": "Submit pre-start check",
+      "sourceId": "bTGQW",
+      "scope": "page",
+      "page": "check",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Submit pre-start che",
+        "sourceType": "ButtonClicked",
+        "condition": {
+          "text": "Dropdown A's value is not empty and Input A's value is not empty",
+          "source": {"next":{"next":{"next":{"args":{"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPo"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"is_not_empty"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPm"},"type":"GetElement"}
+        }
+      },
+      "steps": [
+        {
+          "order": 1, "type": "create", "sourceType": "NewThing", "sourceId": "bTGQY", "entity": "check", "target": "New check",
+          "sets": [
+            { "field": "vehicle", "value": { "text": "Dropdown A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPm"},"type":"GetElement"} } },
+            { "field": "driver", "value": { "text": "Current User", "source": {"type":"CurrentUser"} } },
+            { "field": "vehicle_name", "value": { "text": "Dropdown A's value's Name", "source": {"next":{"next":{"type":"Message","name":"name_text"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPm"},"type":"GetElement"} } },
+            { "field": "driver_name", "value": { "text": "Current User's Full Name", "source": {"next":{"type":"Message","name":"full_name_text"},"type":"CurrentUser"} } },
+            { "field": "odometer", "value": { "text": "Input A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPo"},"type":"GetElement"} } },
+            { "field": "notes", "value": { "text": "MultilineInput A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGQI"},"type":"GetElement"} } },
+            { "field": "photo", "value": { "text": "PictureUploader A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGQM"},"type":"GetElement"} } },
+            { "field": "failed_items", "value": { "text": "Search for Checklist Items:minus list check's ok_items:format as text", "source": {"next":{"args":{"next":{"type":"Message","name":"custom.ok_items_"},"properties":{"element_id":"bTGMO"},"type":"GetElement"},"next":{"properties":{"content":{"entries":{"0":{"next":{"type":"Message","name":"label_text"},"type":"InjectedValue"},"1":". "},"type":"TextExpression"},"delimiter":""},"type":"Message","name":"format_as_text"},"type":"Message","name":"minus_list"},"properties":{"constraints":{"0":{"key":"active_boolean","value":true,"constraint_type":"equals"}},"descending":false,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"} } }
+          ],
+          "notes": "The rendered failed_items text drops the 'active = yes' constraint and the sort that the JSON shows."
+        },
+        {
+          "order": 2, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGQZ", "entity": "check", "target": "The check created in step 1",
+          "sets": [
+            { "field": "passed", "value": { "text": "Result of step 1's Failed Items is empty", "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"failed_items_text"},"properties":{"action_id":"bTGQY"},"type":"PreviousStep"} } }
+          ]
+        },
+        {
+          "order": 3, "type": "create", "sourceType": "NewThing", "sourceId": "bTGQa", "entity": "defect", "target": "New defect for the failed items",
+          "condition": { "text": "Result of step 1's Failed Items is not empty", "source": {"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"failed_items_text"},"properties":{"action_id":"bTGQY"},"type":"PreviousStep"} },
+          "sets": [
+            { "field": "vehicle", "value": { "text": "Dropdown A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPm"},"type":"GetElement"} } },
+            { "field": "vehicle_name", "value": { "text": "Dropdown A's value's Name", "source": {"next":{"next":{"type":"Message","name":"name_text"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPm"},"type":"GetElement"} } },
+            { "field": "description", "value": { "text": "Failed: Result of step 1's Failed Items Driver notes: MultilineInput A's value", "source": {"entries":{"0":"Failed: ","1":{"next":{"type":"Message","name":"failed_items_text"},"properties":{"action_id":"bTGQY"},"type":"PreviousStep"},"2":" Driver notes: ","3":{"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGQI"},"type":"GetElement"}},"type":"TextExpression"} } },
+            { "field": "severity", "value": { "text": "Dropdown B's value:defaulting to Minor", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.severity","option_value":"minor"},"type":"OneOptionValue"},"type":"Message","name":"defaulting_to"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGQK"},"type":"GetElement"} } },
+            { "field": "status", "value": { "text": "Open", "source": {"properties":{"option_set":"option.defect_status","option_value":"open"},"type":"OneOptionValue"} } },
+            { "field": "reported_by", "value": { "text": "Current User", "source": {"type":"CurrentUser"} } },
+            { "field": "reported_by_name", "value": { "text": "Current User's Full Name", "source": {"next":{"type":"Message","name":"full_name_text"},"type":"CurrentUser"} } },
+            { "field": "photo", "value": { "text": "PictureUploader A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGQM"},"type":"GetElement"} } }
+          ]
+        },
+        {
+          "order": 4, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGQb", "entity": "vehicle", "target": "The chosen vehicle",
+          "sets": [
+            { "field": "odometer", "value": { "text": "Input A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGPo"},"type":"GetElement"} } }
+          ]
+        },
+        {
+          "order": 5, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGQc", "entity": "vehicle", "target": "The chosen vehicle",
+          "condition": { "text": "Dropdown B's value is Critical (do not drive)", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.severity","option_value":"critical__do_not_drive_"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGQK"},"type":"GetElement"} },
+          "sets": [
+            { "field": "status", "value": { "text": "Off road", "source": {"properties":{"option_set":"option.vehicle_status","option_value":"off_road"},"type":"OneOptionValue"} } }
+          ],
+          "notes": "Runs on the severity dropdown alone; it does not check whether any item failed."
+        },
+        { "order": 6, "type": "reset", "sourceType": "ResetGroup", "sourceId": "bTGQd", "target": "Group B (the check form)" },
+        { "order": 7, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGXQ", "target": "ok_items page state", "notes": "Properties not read; presumably clears the ticked list." },
+        { "order": 8, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGQe", "target": "Group C (submitted message)" }
+      ],
+      "isCore": true,
+      "notes": "Creates a check, marks it passed or failed, raises a defect when items failed, updates the vehicle's odometer and takes the vehicle off the road for a critical defect. Five data changes across three types in one client-side workflow."
+    },
+    {
+      "key": "check_guard",
+      "name": "Redirect users with no role",
+      "sourceId": "bTGQf",
+      "scope": "page",
+      "page": "check",
+      "trigger": { "type": "page_load", "sourceType": "PageLoaded" },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGQh", "target": "index", "condition": { "text": "Current User's Role is empty", "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } }
+      ]
+    },
+    {
+      "key": "check_toggle_item",
+      "name": "Tick or untick a checklist item",
+      "sourceId": "bTGXM",
+      "scope": "page",
+      "page": "check",
+      "trigger": { "type": "input_change", "element": "Checkbox I", "sourceType": "InputChanged" },
+      "steps": [
+        { "order": 1, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGXO", "target": "ok_items page state: add this item", "condition": { "text": "Checkbox I is checked", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGXI"},"type":"GetElement"} } },
+        { "order": 2, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGXP", "target": "ok_items page state: remove this item", "condition": { "text": "Checkbox I is checked:formatted as number is 0", "source": {"next":{"next":{"next":{"args":0,"type":"Message","name":"equals"},"type":"Message","name":"format_boolean_number"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGXI"},"type":"GetElement"} } }
+      ]
+    },
+    {
+      "key": "defects_guard",
+      "name": "Redirect users with no role",
+      "sourceId": "bTGQi",
+      "scope": "page",
+      "page": "defects",
+      "trigger": { "type": "page_load", "sourceType": "PageLoaded" },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGQk", "target": "index", "condition": { "text": "Current User's Role is empty", "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } }
+      ]
+    },
+    {
+      "key": "defects_start_work",
+      "name": "Start work on a defect",
+      "sourceId": "bTGRV",
+      "scope": "page",
+      "page": "defects",
+      "trigger": { "type": "button_click", "element": "Button Start work", "sourceType": "ButtonClicked" },
+      "steps": [
+        {
+          "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGRX", "entity": "defect", "target": "The defect in this row",
+          "sets": [
+            { "field": "status", "value": { "text": "In progress", "source": {"properties":{"option_set":"option.defect_status","option_value":"in_progress"},"type":"OneOptionValue"} } },
+            { "field": "workshop_notes", "value": { "text": "MultilineInput A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGRN"},"type":"GetElement"} } }
+          ]
+        }
+      ],
+      "notes": "No role condition. Any user who can open the defects page, drivers included, can run it."
+    },
+    {
+      "key": "defects_mark_fixed",
+      "name": "Mark defect fixed and return vehicle to service",
+      "sourceId": "bTGRY",
+      "scope": "page",
+      "page": "defects",
+      "trigger": { "type": "button_click", "element": "Button Mark fixed and retur", "sourceType": "ButtonClicked" },
+      "steps": [
+        {
+          "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGRa", "entity": "vehicle", "target": "The defect's vehicle",
+          "sets": [
+            { "field": "status", "value": { "text": "In service", "source": {"properties":{"option_set":"option.vehicle_status","option_value":"in_service"},"type":"OneOptionValue"} } }
+          ],
+          "notes": "Puts the vehicle back in service without checking for other open critical defects on the same vehicle."
+        },
+        {
+          "order": 2, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGRb", "entity": "defect", "target": "The defect in this row",
+          "sets": [
+            { "field": "status", "value": { "text": "Fixed", "source": {"properties":{"option_set":"option.defect_status","option_value":"fixed"},"type":"OneOptionValue"} } },
+            { "field": "workshop_notes", "value": { "text": "MultilineInput A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGRN"},"type":"GetElement"} } },
+            { "field": "fixed_at", "value": { "text": "Date/time at the start of the workflow", "source": {"type":"WorkflowStartDateTime"} } }
+          ]
+        }
+      ],
+      "isCore": true,
+      "notes": "No role condition. Changes two records (vehicle and defect)."
+    },
+    {
+      "key": "fleet_guard",
+      "name": "Redirect drivers and users with no role",
+      "sourceId": "bTGQl",
+      "scope": "page",
+      "page": "fleet",
+      "trigger": { "type": "page_load", "sourceType": "PageLoaded" },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGQn", "target": "index", "condition": { "text": "Current User's Role is empty or (Current User's Role is Driver)", "source": {"next":{"next":{"next":{"args":{"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"driver"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"},"type":"Message","name":"or_"},"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } }
+      ]
+    },
+    {
+      "key": "fleet_add_vehicle",
+      "name": "Open the add-vehicle form",
+      "sourceId": "bTGSa",
+      "scope": "page",
+      "page": "fleet",
+      "trigger": { "type": "button_click", "element": "Button Add vehicle", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "other", "sourceType": "DisplayGroupData", "sourceId": "bTGSc", "target": "Popup Vehicle", "notes": "Data to display is 'Search for Vehicles:first item' with the constraint name = '__no_vehicle__' (visible only in the JSON), which normally returns nothing, so the popup opens empty." },
+        { "order": 2, "type": "reset", "sourceType": "ResetGroup", "sourceId": "bTGSd", "target": "Popup Vehicle" },
+        { "order": 3, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGSe", "target": "Popup Vehicle" }
+      ],
+      "notes": "The spec has no field for an action's data source expression, so step 1's expression is described in its notes."
+    },
+    {
+      "key": "fleet_edit_vehicle",
+      "name": "Open the edit-vehicle form",
+      "sourceId": "bTGSf",
+      "scope": "page",
+      "page": "fleet",
+      "trigger": { "type": "button_click", "element": "Button Edit vehicle", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "other", "sourceType": "DisplayGroupData", "sourceId": "bTGSh", "target": "Popup Vehicle, showing this row's vehicle" },
+        { "order": 2, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGSi", "target": "Popup Vehicle" }
+      ]
+    },
+    {
+      "key": "fleet_cancel",
+      "name": "Close the vehicle form",
+      "sourceId": "bTGSj",
+      "scope": "page",
+      "page": "fleet",
+      "trigger": { "type": "button_click", "element": "Button Cancel", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "hide", "sourceType": "HideElement", "sourceId": "bTGSl", "target": "Popup Vehicle" }
+      ]
+    },
+    {
+      "key": "fleet_save_vehicle",
+      "name": "Save vehicle",
+      "sourceId": "bTGSm",
+      "scope": "page",
+      "page": "fleet",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Save vehicle",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Input A's value is not empty", "source": {"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSG"},"type":"GetElement"} }
+      },
+      "steps": [
+        {
+          "order": 1, "type": "create", "sourceType": "NewThing", "sourceId": "bTGSo", "entity": "vehicle", "target": "New vehicle",
+          "condition": { "text": "Popup A's Vehicle is empty", "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"get_group_data"},"properties":{"element_id":"bTGSC"},"type":"GetElement"} },
+          "sets": [
+            { "field": "name", "value": { "text": "Input A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSG"},"type":"GetElement"} } },
+            { "field": "rego", "value": { "text": "Input B's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSI"},"type":"GetElement"} } },
+            { "field": "vehicle_type", "value": { "text": "Input C's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSK"},"type":"GetElement"} } },
+            { "field": "odometer", "value": { "text": "Input D's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSM"},"type":"GetElement"} } },
+            { "field": "rego_due", "value": { "text": "Date/TimePicker A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSQ"},"type":"GetElement"} } },
+            { "field": "service_due", "value": { "text": "Date/TimePicker B's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSU"},"type":"GetElement"} } },
+            { "field": "status", "value": { "text": "In service", "source": {"properties":{"option_set":"option.vehicle_status","option_value":"in_service"},"type":"OneOptionValue"} } }
+          ]
+        },
+        {
+          "order": 2, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGSp", "entity": "vehicle", "target": "The vehicle shown in the popup",
+          "condition": { "text": "Popup A's Vehicle is not empty", "source": {"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"get_group_data"},"properties":{"element_id":"bTGSC"},"type":"GetElement"} },
+          "sets": [
+            { "field": "name", "value": { "text": "Input A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSG"},"type":"GetElement"} } },
+            { "field": "rego", "value": { "text": "Input B's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSI"},"type":"GetElement"} } },
+            { "field": "vehicle_type", "value": { "text": "Input C's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSK"},"type":"GetElement"} } },
+            { "field": "odometer", "value": { "text": "Input D's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSM"},"type":"GetElement"} } },
+            { "field": "rego_due", "value": { "text": "Date/TimePicker A's value:defaulting to Popup A's Vehicle's Rego Due", "source": {"next":{"next":{"args":{"next":{"next":{"type":"Message","name":"rego_due_date"},"type":"Message","name":"get_group_data"},"properties":{"element_id":"bTGSC"},"type":"GetElement"},"type":"Message","name":"defaulting_to"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSQ"},"type":"GetElement"} } },
+            { "field": "service_due", "value": { "text": "Date/TimePicker B's value:defaulting to Popup A's Vehicle's Service Due", "source": {"next":{"next":{"args":{"next":{"next":{"type":"Message","name":"service_due_date"},"type":"Message","name":"get_group_data"},"properties":{"element_id":"bTGSC"},"type":"GetElement"},"type":"Message","name":"defaulting_to"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGSU"},"type":"GetElement"} } }
+          ]
+        },
+        { "order": 3, "type": "hide", "sourceType": "HideElement", "sourceId": "bTGSq", "target": "Popup Vehicle" }
+      ],
+      "notes": "Create or update depending on whether the popup holds a vehicle. No role condition; the page guard keeps drivers out."
+    },
+    {
+      "key": "setup_guard_role",
+      "name": "Redirect non-admins",
+      "sourceId": "bTGQo",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "page_load", "sourceType": "PageLoaded" },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGQq", "target": "index", "condition": { "text": "(Current User's Role is not Admin) and ((Website home URL contains prestart-fleet.bubbleapps.io) or ((Search for Users:count - Search for Users:count) > 0))", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"next":{"args":{"next":{"args":"prestart-fleet.bubbleapps.io","next":{"args":{"next":{"next":{"args":{"next":{"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"},"1":{"key":"is_demo_boolean","value":true,"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"next":{"args":0,"type":"Message","name":"greater_than"},"type":"Message","name":"minus"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"type":"Message","name":"or_"},"type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"},"type":"Message","name":"and_"},"type":"Message","name":"not_equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } }
+      ],
+      "notes": "The rendered text shows 'Search for Users:count - Search for Users:count', which reads as zero. The JSON subtracts the count of demo admins from the count of all admins, so the term means 'a real admin exists'."
+    },
+    {
+      "key": "setup_create_settings",
+      "name": "Create app settings on first admin visit",
+      "sourceId": "bTGUF",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "page_load",
+        "sourceType": "PageLoaded",
+        "condition": { "text": "(Search for App Settingss:count is 0) and (Current User's Role is Admin)", "source": {"next":{"next":{"args":0,"next":{"args":{"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"},"type":"Message","name":"and_"},"type":"Message","name":"equals"},"type":"Message","name":"count"},"properties":{"type_to_find":"custom.app_settings"},"type":"Search"} }
+      },
+      "steps": [
+        {
+          "order": 1, "type": "create", "sourceType": "NewThing", "sourceId": "bTGUH", "entity": "app_settings", "target": "The single settings record",
+          "sets": [
+            { "field": "show_setup_offer", "value": { "text": "yes", "source": true } },
+            { "field": "business_name", "value": { "text": "PreStart", "source": "PreStart" } }
+          ],
+          "notes": "Bubble returned these as plain values, not expressions."
+        }
+      ]
+    },
+    {
+      "key": "setup_save_details",
+      "name": "Save business details",
+      "sourceId": "bTGUI",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Save details", "sourceType": "ButtonClicked" },
+      "steps": [
+        {
+          "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGUK", "entity": "app_settings", "target": "The App Settings record shown in the group",
+          "sets": [
+            { "field": "business_name", "value": { "text": "Input A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGTJ"},"type":"GetElement"} } },
+            { "field": "support_email", "value": { "text": "Input B's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGTL"},"type":"GetElement"} } },
+            { "field": "setup_help_url", "value": { "text": "Input C's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGTN"},"type":"GetElement"} } }
+          ]
+        },
+        { "order": 2, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGUL", "target": "Text F (Saved.)" }
+      ],
+      "notes": "No role condition; relies on the page guard."
+    },
+    {
+      "key": "setup_hide_help",
+      "name": "Hide the setup help card",
+      "sourceId": "bTGUM",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Hide this card", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGUO", "entity": "app_settings", "target": "The App Settings record", "sets": [ { "field": "show_setup_offer", "value": { "text": "no", "source": false } } ] }
+      ]
+    },
+    {
+      "key": "setup_show_help",
+      "name": "Show the setup help card",
+      "sourceId": "bTGUP",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Show the setup help ", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGUR", "entity": "app_settings", "target": "The App Settings record", "sets": [ { "field": "show_setup_offer", "value": { "text": "yes", "source": true } } ] }
+      ]
+    },
+    {
+      "key": "setup_open_help",
+      "name": "Open the setup help link",
+      "sourceId": "bTGUS",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Open setup help", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "open_url", "sourceType": "OpenURL", "sourceId": "bTGUU", "target": "App Settings' Setup Help URL, in a new tab" }
+      ]
+    },
+    {
+      "key": "setup_make_driver",
+      "name": "Make team member a driver",
+      "sourceId": "bTGUV",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Driver", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGUX", "entity": "user", "target": "The user in this row", "sets": [ { "field": "role", "value": { "text": "Driver", "source": {"properties":{"option_set":"option.role","option_value":"driver"},"type":"OneOptionValue"} } } ] }
+      ],
+      "notes": "No role condition on the workflow; relies on the page guard."
+    },
+    {
+      "key": "setup_make_workshop",
+      "name": "Make team member workshop",
+      "sourceId": "bTGUY",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Workshop", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGUa", "entity": "user", "target": "The user in this row", "sets": [ { "field": "role", "value": { "text": "Workshop", "source": {"properties":{"option_set":"option.role","option_value":"workshop"},"type":"OneOptionValue"} } } ] }
+      ],
+      "notes": "No role condition on the workflow; relies on the page guard."
+    },
+    {
+      "key": "setup_make_admin",
+      "name": "Make team member an admin",
+      "sourceId": "bTGUb",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Admin", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGUd", "entity": "user", "target": "The user in this row", "sets": [ { "field": "role", "value": { "text": "Admin", "source": {"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"} } } ] }
+      ],
+      "notes": "No role condition on the workflow; relies on the page guard."
+    },
+    {
+      "key": "setup_remove_access",
+      "name": "Remove a team member's access",
+      "sourceId": "bTGUe",
+      "scope": "page",
+      "page": "setup",
+      "trigger": { "type": "button_click", "element": "Button Remove access", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGUg", "entity": "user", "target": "The user in this row", "sets": [ { "field": "role", "value": { "text": "(cleared, no value)", "source": {"key":"role_option_role"} } } ] }
+      ],
+      "notes": "Bubble returned the change with a key and no value, which clears the role. No role condition on the workflow; an admin can also clear their own role."
+    },
+    {
+      "key": "setup_guard_signed_out",
+      "name": "Redirect signed-out visitors",
+      "sourceId": "bTGUr",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "page_load",
+        "sourceType": "PageLoaded",
+        "condition": { "text": "Current User is logged out", "source": {"next":{"type":"Message","name":"not_logged_in"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGUt", "target": "index" }
+      ]
+    },
+    {
+      "key": "setup_claim_admin",
+      "name": "Claim admin and wipe demo data",
+      "sourceId": "bTGVG",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Claim Admin & Wipe D",
+        "sourceType": "ButtonClicked",
+        "condition": {
+          "text": "((Current User is logged in and (Website home URL doesn't contain prestart-fleet.bubbleapps.io)) and ((Search for Users:count - Search for Users:count) is 0)) and Checkbox A is checked",
+          "source": {"next":{"next":{"args":{"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"not_contains"},"properties":{"name":"Website Home"},"type":"PageData"},"next":{"args":{"next":{"next":{"args":{"next":{"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"},"1":{"key":"is_demo_boolean","value":true,"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"next":{"args":0,"type":"Message","name":"equals"},"type":"Message","name":"minus"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"next":{"args":{"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGVC"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"and_"},"type":"Message","name":"and_"},"type":"Message","name":"logged_in"},"type":"CurrentUser"}
+        }
+      },
+      "steps": [
+        {
+          "order": 1, "type": "update_current_user", "sourceType": "MakeChangeCurrentUser", "sourceId": "bTGVI", "entity": "user", "target": "Current user",
+          "sets": [
+            { "field": "role", "value": { "text": "Admin", "source": {"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"} } },
+            { "field": "is_demo", "value": { "text": "no", "source": false } }
+          ]
+        },
+        { "order": 2, "type": "schedule_backend", "sourceType": "ScheduleAPIEvent", "sourceId": "bTGVJ", "target": "wipe_demo_data, scheduled for the current date/time, with 'ignore privacy rules' switched on" },
+        { "order": 3, "type": "pause", "sourceType": "PauseWFClient", "sourceId": "bTGVK", "target": "Pause before the next action" },
+        { "order": 4, "type": "refresh", "sourceType": "RefreshPage", "sourceId": "bTGVL", "target": "This page" }
+      ],
+      "isCore": true,
+      "notes": "Lets the first signed-in user on a copy of the template (not on the bubbleapps.io address, no real admin yet, consent box ticked) become admin and wipe all demo data. The condition's two 'Search for Users:count' terms are different searches in the JSON: all admins, and demo admins."
+    },
+    {
+      "key": "setup_save_item",
+      "name": "Save checklist item wording",
+      "sourceId": "bTGZZ",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Save",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "(Current User's Role is Admin) and Input D's value is not empty", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"next":{"args":{"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGZD"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGZb", "entity": "checklist_item", "target": "The checklist item in this row", "sets": [ { "field": "label", "value": { "text": "Input D's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGZD"},"type":"GetElement"} } } ] }
+      ]
+    },
+    {
+      "key": "setup_move_item_up",
+      "name": "Move checklist item up",
+      "sourceId": "bTGZc",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Move up",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Current User's Role is Admin", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        {
+          "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGZe", "entity": "checklist_item", "target": "The checklist item in this row",
+          "condition": { "text": "Search for Checklist Items:count is 1", "source": {"next":{"next":{"args":1,"type":"Message","name":"equals"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"less than"}},"type_to_find":"custom.checklist_item"},"type":"Search"} },
+          "sets": [ { "field": "sort", "value": { "text": "Search for Checklist Items:first item's Sort - 10", "source": {"next":{"next":{"next":{"args":10,"type":"Message","name":"minus"},"type":"Message","name":"sort_number"},"type":"Message","name":"first_element"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"less than"}},"descending":true,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"} } } ]
+        },
+        {
+          "order": 2, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGZf", "entity": "checklist_item", "target": "The checklist item in this row",
+          "condition": { "text": "Search for Checklist Items:count > 1", "source": {"next":{"next":{"args":1,"type":"Message","name":"greater_than"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"less than"}},"type_to_find":"custom.checklist_item"},"type":"Search"} },
+          "sets": [ { "field": "sort", "value": { "text": "Search for Checklist Items:first item's Sort + Search for Checklist Items:item #2's Sort / 2", "source": {"next":{"next":{"next":{"args":{"next":{"args":2,"next":{"type":"Message","name":"sort_number"},"type":"Message","name":"specific_item"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"less than"}},"descending":true,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"},"next":{"args":2,"type":"Message","name":"divide"},"type":"Message","name":"plus"},"type":"Message","name":"sort_number"},"type":"Message","name":"first_element"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"less than"}},"descending":true,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"} } } ],
+          "notes": "The rendered text reads as 'a + b / 2'; in the JSON the division applies to the sum, so the new sort is the midpoint of the two items above."
+        }
+      ],
+      "notes": "Fractional sort ordering. Both steps search on sort less than this item's sort."
+    },
+    {
+      "key": "setup_move_item_down",
+      "name": "Move checklist item down",
+      "sourceId": "bTGZg",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Move down",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Current User's Role is Admin", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        {
+          "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGZi", "entity": "checklist_item", "target": "The checklist item in this row",
+          "condition": { "text": "Search for Checklist Items:count is 1", "source": {"next":{"next":{"args":1,"type":"Message","name":"equals"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"greater than"}},"type_to_find":"custom.checklist_item"},"type":"Search"} },
+          "sets": [ { "field": "sort", "value": { "text": "Search for Checklist Items:first item's Sort + 10", "source": {"next":{"next":{"next":{"args":10,"type":"Message","name":"plus"},"type":"Message","name":"sort_number"},"type":"Message","name":"first_element"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"greater than"}},"descending":false,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"} } } ]
+        },
+        {
+          "order": 2, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGZj", "entity": "checklist_item", "target": "The checklist item in this row",
+          "condition": { "text": "Search for Checklist Items:count > 1", "source": {"next":{"next":{"args":1,"type":"Message","name":"greater_than"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"greater than"}},"type_to_find":"custom.checklist_item"},"type":"Search"} },
+          "sets": [ { "field": "sort", "value": { "text": "Search for Checklist Items:first item's Sort + Search for Checklist Items:item #2's Sort / 2", "source": {"next":{"next":{"next":{"args":{"next":{"args":2,"next":{"type":"Message","name":"sort_number"},"type":"Message","name":"specific_item"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"greater than"}},"descending":false,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"},"next":{"args":2,"type":"Message","name":"divide"},"type":"Message","name":"plus"},"type":"Message","name":"sort_number"},"type":"Message","name":"first_element"},"properties":{"constraints":{"0":{"key":"sort_number","value":{"next":{"type":"Message","name":"sort_number"},"type":"ElementParent"},"constraint_type":"greater than"}},"descending":false,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"} } } ],
+          "notes": "Same rendered-text ambiguity as setup_move_item_up step 2."
+        }
+      ]
+    },
+    {
+      "key": "setup_switch_off_item",
+      "name": "Switch off a checklist item",
+      "sourceId": "bTGZk",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Switch off",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Current User's Role is Admin", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGZm", "entity": "checklist_item", "target": "The checklist item in this row", "sets": [ { "field": "active", "value": { "text": "no", "source": false } } ] }
+      ]
+    },
+    {
+      "key": "setup_switch_on_item",
+      "name": "Switch a checklist item back on",
+      "sourceId": "bTGZn",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Switched off. Switch",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Current User's Role is Admin", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "update", "sourceType": "ChangeThing", "sourceId": "bTGZp", "entity": "checklist_item", "target": "The checklist item in this row", "sets": [ { "field": "active", "value": { "text": "yes", "source": true } } ] }
+      ]
+    },
+    {
+      "key": "setup_delete_item",
+      "name": "Delete a switched-off checklist item",
+      "sourceId": "bTGZq",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Delete",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "(Current User's Role is Admin) and Parent group's Checklist Item's Active is no", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"next":{"args":{"next":{"next":{"type":"Message","name":"is_false"},"type":"Message","name":"active_boolean"},"type":"ElementParent"},"type":"Message","name":"and_"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "delete", "sourceType": "DeleteThing", "sourceId": "bTGZs", "entity": "checklist_item", "target": "The checklist item in this row" }
+      ]
+    },
+    {
+      "key": "setup_add_item",
+      "name": "Add a checklist item",
+      "sourceId": "bTGZt",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Add item",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "(Current User's Role is Admin) and Input E's value is not empty", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"next":{"args":{"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGZT"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        {
+          "order": 1, "type": "create", "sourceType": "NewThing", "sourceId": "bTGZv", "entity": "checklist_item", "target": "New checklist item",
+          "sets": [
+            { "field": "label", "value": { "text": "Input E's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGZT"},"type":"GetElement"} } },
+            { "field": "active", "value": { "text": "yes", "source": true } },
+            { "field": "sort", "value": { "text": "Search for Checklist Items:first item's Sort:defaulting to 0 + 10", "source": {"next":{"next":{"next":{"args":0,"next":{"args":10,"type":"Message","name":"plus"},"type":"Message","name":"defaulting_to"},"type":"Message","name":"sort_number"},"type":"Message","name":"first_element"},"properties":{"descending":true,"sort_field":"sort_number","type_to_find":"custom.checklist_item"},"type":"Search"} } }
+          ]
+        },
+        { "order": 2, "type": "reset", "sourceType": "ResetGroup", "sourceId": "bTGZw", "target": "Group K (new item form)" }
+      ]
+    },
+    {
+      "key": "setup_add_standard_items",
+      "name": "Add the 8 standard checklist items",
+      "sourceId": "bTGZx",
+      "scope": "page",
+      "page": "setup",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Add the 8 standard i",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "(Current User's Role is Admin) and (Search for Checklist Items:count is 0)", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"next":{"args":{"next":{"next":{"args":0,"type":"Message","name":"equals"},"type":"Message","name":"count"},"properties":{"type_to_find":"custom.checklist_item"},"type":"Search"},"type":"Message","name":"and_"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "create", "sourceType": "NewThing", "sourceId": "bTGZz", "entity": "checklist_item", "target": "Standard item 1", "sets": [ { "field": "label", "value": { "text": "Tyres and wheels", "source": "Tyres and wheels" } }, { "field": "sort", "value": { "text": "10", "source": 10 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] },
+        { "order": 2, "type": "create", "sourceType": "NewThing", "sourceId": "bTGaA", "entity": "checklist_item", "target": "Standard item 2", "sets": [ { "field": "label", "value": { "text": "Lights and indicators", "source": "Lights and indicators" } }, { "field": "sort", "value": { "text": "20", "source": 20 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] },
+        { "order": 3, "type": "create", "sourceType": "NewThing", "sourceId": "bTGaB", "entity": "checklist_item", "target": "Standard item 3", "sets": [ { "field": "label", "value": { "text": "Brakes and handbrake", "source": "Brakes and handbrake" } }, { "field": "sort", "value": { "text": "30", "source": 30 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] },
+        { "order": 4, "type": "create", "sourceType": "NewThing", "sourceId": "bTGaC", "entity": "checklist_item", "target": "Standard item 4", "sets": [ { "field": "label", "value": { "text": "Mirrors, windscreen and wipers", "source": "Mirrors, windscreen and wipers" } }, { "field": "sort", "value": { "text": "40", "source": 40 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] },
+        { "order": 5, "type": "create", "sourceType": "NewThing", "sourceId": "bTGaD", "entity": "checklist_item", "target": "Standard item 5", "sets": [ { "field": "label", "value": { "text": "Fluid levels, no leaks", "source": "Fluid levels, no leaks" } }, { "field": "sort", "value": { "text": "50", "source": 50 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] },
+        { "order": 6, "type": "create", "sourceType": "NewThing", "sourceId": "bTGaE", "entity": "checklist_item", "target": "Standard item 6", "sets": [ { "field": "label", "value": { "text": "Seatbelts and horn", "source": "Seatbelts and horn" } }, { "field": "sort", "value": { "text": "60", "source": 60 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] },
+        { "order": 7, "type": "create", "sourceType": "NewThing", "sourceId": "bTGaF", "entity": "checklist_item", "target": "Standard item 7", "sets": [ { "field": "label", "value": { "text": "Load and tie-downs secure", "source": "Load and tie-downs secure" } }, { "field": "sort", "value": { "text": "70", "source": 70 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] },
+        { "order": 8, "type": "create", "sourceType": "NewThing", "sourceId": "bTGaG", "entity": "checklist_item", "target": "Standard item 8", "sets": [ { "field": "label", "value": { "text": "First aid kit and fire extinguisher", "source": "First aid kit and fire extinguisher" } }, { "field": "sort", "value": { "text": "80", "source": 80 } }, { "field": "active", "value": { "text": "yes", "source": true } } ] }
+      ],
+      "isCore": true,
+      "notes": "Seeds the default checklist. In the rebuild this is a seed or a single server call. Values were returned as plain values, not expressions."
+    },
+    {
+      "key": "history_guard",
+      "name": "Redirect users with no role",
+      "sourceId": "bTGWR",
+      "scope": "page",
+      "page": "history",
+      "trigger": { "type": "page_load", "sourceType": "PageLoaded" },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGWT", "target": "index", "condition": { "text": "Current User's Role is empty", "source": {"next":{"next":{"type":"Message","name":"is_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } }
+      ]
+    },
+    {
+      "key": "history_clear_filters",
+      "name": "Clear history filters",
+      "sourceId": "bTGWU",
+      "scope": "page",
+      "page": "history",
+      "trigger": { "type": "button_click", "element": "Button Clear filters", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "reset", "sourceType": "ResetGroup", "sourceId": "bTGWW", "target": "Group B (filters)" }
+      ]
+    },
+    {
+      "key": "account_guard",
+      "name": "Redirect signed-out visitors",
+      "sourceId": "bTGYN",
+      "scope": "page",
+      "page": "account",
+      "trigger": {
+        "type": "page_load",
+        "sourceType": "PageLoaded",
+        "condition": { "text": "Current User is logged out", "source": {"next":{"type":"Message","name":"not_logged_in"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGYP", "target": "index" }
+      ]
+    },
+    {
+      "key": "account_save_name",
+      "name": "Save my name",
+      "sourceId": "bTGYQ",
+      "scope": "page",
+      "page": "account",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Save name",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Website home URL doesn't contain prestart-fleet.bubbleapps.io", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"not_contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "update_current_user", "sourceType": "MakeChangeCurrentUser", "sourceId": "bTGYS", "entity": "user", "target": "Current user", "sets": [ { "field": "full_name", "value": { "text": "Input A's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGXv"},"type":"GetElement"} } } ] },
+        { "order": 2, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGYT", "target": "Text C (Name saved.)" }
+      ]
+    },
+    {
+      "key": "account_change_password",
+      "name": "Change my password",
+      "sourceId": "bTGYU",
+      "scope": "page",
+      "page": "account",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Update password",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "(Website home URL doesn't contain prestart-fleet.bubbleapps.io) and Input C's value is not empty", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","next":{"args":{"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"get_data"},"properties":{"element_id":"bTGYF"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"not_contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "hide", "sourceType": "HideElement", "sourceId": "bTGYW", "target": "Text F (error message)" },
+        { "order": 2, "type": "other", "sourceType": "UpdateCredentials", "sourceId": "bTGYX", "entity": "user", "target": "Current user's password", "notes": "Old password from Input Current password, new password from Input New password; Bubble's success alert is switched off." },
+        { "order": 3, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGYY", "target": "Text E (Password updated.)" }
+      ]
+    },
+    {
+      "key": "account_password_error",
+      "name": "Show password change error",
+      "sourceId": "bTGYZ",
+      "scope": "page",
+      "page": "account",
+      "trigger": { "type": "element_event", "element": "Button Update password", "sourceType": "OnError" },
+      "steps": [
+        { "order": 1, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGYb", "target": "Text F (That did not work.)" }
+      ]
+    },
+    {
+      "key": "index_demo_driver",
+      "name": "Try the demo as a driver",
+      "sourceId": "bTGPB",
+      "scope": "page",
+      "page": "index",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Demo as driver",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Website home URL contains prestart-fleet.bubbleapps.io", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGPD", "target": "demo_email page state", "notes": "Set to a fixed demo driver address (not copied)." },
+        { "order": 2, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGPE", "target": "demo_role page state = Driver" },
+        { "order": 3, "type": "log_in", "sourceType": "LogIn", "sourceId": "bTGPF", "target": "Fixed demo driver account", "notes": "Email and password are typed into the action as plain values. The password is not copied here." },
+        { "order": 4, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGPG", "target": "check" }
+      ]
+    },
+    {
+      "key": "index_demo_workshop",
+      "name": "Try the demo as workshop",
+      "sourceId": "bTGPH",
+      "scope": "page",
+      "page": "index",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Demo as workshop",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Website home URL contains prestart-fleet.bubbleapps.io", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGPJ", "target": "demo_email page state", "notes": "Properties not read; by pattern, a fixed demo workshop address." },
+        { "order": 2, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGPK", "target": "demo_role page state", "notes": "Properties not read; by pattern, Workshop." },
+        { "order": 3, "type": "log_in", "sourceType": "LogIn", "sourceId": "bTGPL", "target": "Fixed demo workshop account", "notes": "Email and password are typed into the action as plain values. The password is not copied here." },
+        { "order": 4, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGPM", "target": "defects" }
+      ]
+    },
+    {
+      "key": "index_demo_admin",
+      "name": "Try the demo as admin",
+      "sourceId": "bTGPN",
+      "scope": "page",
+      "page": "index",
+      "trigger": {
+        "type": "button_click",
+        "element": "Button Demo as admin",
+        "sourceType": "ButtonClicked",
+        "condition": { "text": "Website home URL contains prestart-fleet.bubbleapps.io", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGPP", "target": "demo_email page state", "notes": "Properties not read; by pattern, a fixed demo admin address." },
+        { "order": 2, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGPQ", "target": "demo_role page state", "notes": "Properties not read; by pattern, Admin." },
+        { "order": 3, "type": "log_in", "sourceType": "LogIn", "sourceId": "bTGPR", "target": "Fixed demo admin account", "notes": "Email and password are typed into the action as plain values. The password is not copied here." },
+        { "order": 4, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGPS", "target": "fleet" }
+      ]
+    },
+    {
+      "key": "index_demo_driver_signup",
+      "name": "Create the demo driver account on first use",
+      "sourceId": "bTGPT",
+      "scope": "page",
+      "page": "index",
+      "trigger": {
+        "type": "element_event",
+        "element": "Button Demo as driver",
+        "sourceType": "OnError",
+        "condition": { "text": "(Website home URL contains prestart-fleet.bubbleapps.io) and index's demo_email is not empty", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","next":{"args":{"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"custom.demo_email_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "sign_up", "sourceType": "SignUp", "sourceId": "bTGPV", "target": "New demo account", "notes": "Email from the demo_email state; the password is a plain value in the action and is not copied here." },
+        {
+          "order": 2, "type": "update_current_user", "sourceType": "MakeChangeCurrentUser", "sourceId": "bTGPW", "entity": "user", "target": "Current user",
+          "sets": [
+            { "field": "role", "value": { "text": "index's demo_role", "source": {"next":{"type":"Message","name":"custom.demo_role_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"} } },
+            { "field": "full_name", "value": { "text": "Demo index's demo_role's Display", "source": {"entries":{"0":"Demo ","1":{"next":{"next":{"type":"Message","name":"display"},"type":"Message","name":"custom.demo_role_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"}},"type":"TextExpression"} } },
+            { "field": "is_demo", "value": { "text": "yes", "source": true } }
+          ]
+        },
+        { "order": 3, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGPX", "target": "check", "condition": { "text": "Current User's Role is Driver", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"driver"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } },
+        { "order": 4, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGPY", "target": "defects", "condition": { "text": "Current User's Role is Workshop", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"workshop"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } },
+        { "order": 5, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGPZ", "target": "fleet", "condition": { "text": "Current User's Role is Admin", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } }
+      ],
+      "notes": "Runs when the demo log-in fails because the demo account does not exist yet. It lets anyone on the bubbleapps.io address create a demo account whose role comes from page state, including Admin via the admin demo button."
+    },
+    {
+      "key": "index_demo_workshop_signup",
+      "name": "Create the demo workshop account on first use",
+      "sourceId": "bTGVP",
+      "scope": "page",
+      "page": "index",
+      "trigger": {
+        "type": "element_event",
+        "element": "Button Demo as workshop",
+        "sourceType": "OnError",
+        "condition": { "text": "(Website home URL contains prestart-fleet.bubbleapps.io) and index's demo_email is not empty", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","next":{"args":{"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"custom.demo_email_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "sign_up", "sourceType": "SignUp", "sourceId": "bTGVR", "target": "New demo account", "notes": "Email from the demo_email state; the password is a plain value in the action and is not copied here." },
+        {
+          "order": 2, "type": "update_current_user", "sourceType": "MakeChangeCurrentUser", "sourceId": "bTGVS", "entity": "user", "target": "Current user",
+          "sets": [
+            { "field": "role", "value": { "text": "index's demo_role", "source": {"next":{"type":"Message","name":"custom.demo_role_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"} } },
+            { "field": "full_name", "value": { "text": "Demo index's demo_role's Display", "source": {"entries":{"0":"Demo ","1":{"next":{"next":{"type":"Message","name":"display"},"type":"Message","name":"custom.demo_role_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"}},"type":"TextExpression"} } },
+            { "field": "is_demo", "value": { "text": "yes", "source": true } }
+          ]
+        },
+        { "order": 3, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGVT", "target": "defects" }
+      ]
+    },
+    {
+      "key": "index_demo_admin_signup",
+      "name": "Create the demo admin account on first use",
+      "sourceId": "bTGVU",
+      "scope": "page",
+      "page": "index",
+      "trigger": {
+        "type": "element_event",
+        "element": "Button Demo as admin",
+        "sourceType": "OnError",
+        "condition": { "text": "(Website home URL contains prestart-fleet.bubbleapps.io) and index's demo_email is not empty", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","next":{"args":{"next":{"next":{"type":"Message","name":"is_not_empty"},"type":"Message","name":"custom.demo_email_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"},"type":"Message","name":"and_"},"type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "sign_up", "sourceType": "SignUp", "sourceId": "bTGVW", "target": "New demo account", "notes": "Email from the demo_email state; the password is a plain value in the action and is not copied here." },
+        {
+          "order": 2, "type": "update_current_user", "sourceType": "MakeChangeCurrentUser", "sourceId": "bTGVX", "entity": "user", "target": "Current user",
+          "sets": [
+            { "field": "role", "value": { "text": "index's demo_role", "source": {"next":{"type":"Message","name":"custom.demo_role_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"} } },
+            { "field": "full_name", "value": { "text": "Demo index's demo_role's Display", "source": {"entries":{"0":"Demo ","1":{"next":{"next":{"type":"Message","name":"display"},"type":"Message","name":"custom.demo_role_"},"properties":{"element_id":"bTGYf"},"type":"GetElement"}},"type":"TextExpression"} } },
+            { "field": "is_demo", "value": { "text": "yes", "source": true } }
+          ]
+        },
+        { "order": 3, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGVY", "target": "fleet" }
+      ]
+    },
+    {
+      "key": "index_open_terms",
+      "name": "Open terms of use",
+      "sourceId": "bTGYi",
+      "scope": "page",
+      "page": "index",
+      "trigger": { "type": "button_click", "element": "Text Terms of use", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGYk", "target": "terms" }
+      ]
+    },
+    {
+      "key": "index_open_privacy",
+      "name": "Open privacy policy",
+      "sourceId": "bTGYl",
+      "scope": "page",
+      "page": "index",
+      "trigger": { "type": "button_click", "element": "Text Privacy policy", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGYn", "target": "privacy" }
+      ]
+    },
+    {
+      "key": "nav_open_sign_in",
+      "name": "Open the sign-in popup",
+      "sourceId": "bTGMo",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Sign in", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGMq", "target": "Nav message state" },
+        { "order": 2, "type": "show", "sourceType": "ShowElement", "sourceId": "bTGMr", "target": "Popup A (sign-in popup)" }
+      ]
+    },
+    {
+      "key": "nav_log_out",
+      "name": "Log out",
+      "sourceId": "bTGMs",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Log out", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "log_out", "sourceType": "LogOut", "sourceId": "bTGMu", "target": "Current user" },
+        { "order": 2, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGMv", "target": "index" }
+      ]
+    },
+    {
+      "key": "nav_go_check",
+      "name": "Go to start check",
+      "sourceId": "bTGMw",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Start check", "sourceType": "ButtonClicked" },
+      "steps": [ { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGMy", "target": "check" } ]
+    },
+    {
+      "key": "nav_go_defects",
+      "name": "Go to defects",
+      "sourceId": "bTGMz",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Defects", "sourceType": "ButtonClicked" },
+      "steps": [ { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGNB", "target": "defects" } ]
+    },
+    {
+      "key": "nav_go_fleet",
+      "name": "Go to fleet",
+      "sourceId": "bTGNC",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Fleet", "sourceType": "ButtonClicked" },
+      "steps": [ { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGNE", "target": "fleet" } ]
+    },
+    {
+      "key": "nav_go_setup",
+      "name": "Go to setup and team",
+      "sourceId": "bTGNF",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Setup and team", "sourceType": "ButtonClicked" },
+      "steps": [ { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGNH", "target": "setup" } ]
+    },
+    {
+      "key": "nav_sign_in",
+      "name": "Sign in",
+      "sourceId": "bTGNL",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Sign in (popup)", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "log_in", "sourceType": "LogIn", "sourceId": "bTGNN", "target": "User with the typed email and password", "notes": "Email from Input Email, password from Input Password, stay logged in on." },
+        { "order": 2, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGNO", "target": "Nav message state" },
+        { "order": 3, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGNP", "target": "check", "condition": { "text": "Current User's Role is Driver", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"driver"},"type":"OneOptionValue"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } },
+        { "order": 4, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGNQ", "target": "defects", "condition": { "text": "Current User's Role is not empty and (Current User's Role is not Driver)", "source": {"next":{"next":{"next":{"args":{"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"driver"},"type":"OneOptionValue"},"type":"Message","name":"not_equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"},"type":"Message","name":"and_"},"type":"Message","name":"is_not_empty"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } }
+      ],
+      "notes": "Element bTGMi, the Sign in button inside the popup (a second Sign in button in the menu opens the popup)."
+    },
+    {
+      "key": "nav_create_account",
+      "name": "Create an account",
+      "sourceId": "bTGNm",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Create an account", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "sign_up", "sourceType": "SignUp", "sourceId": "bTGNo", "target": "New user", "notes": "Email from Input Email, password from Input Password." },
+        {
+          "order": 2, "type": "update_current_user", "sourceType": "MakeChangeCurrentUser", "sourceId": "bTGNp", "entity": "user", "target": "Current user",
+          "sets": [
+            { "field": "full_name", "value": { "text": "Input C's value", "source": {"next":{"type":"Message","name":"get_data"},"properties":{"element_id":"bTGMg"},"type":"GetElement"} } },
+            { "field": "is_demo", "value": { "text": "no", "source": false } }
+          ]
+        },
+        {
+          "order": 3, "type": "update_current_user", "sourceType": "MakeChangeCurrentUser", "sourceId": "bTGNq", "entity": "user", "target": "Current user",
+          "condition": { "text": "(Search for Users:count is 0) and (Website home URL contains prestart-fleet.bubbleapps.io)", "source": {"next":{"next":{"args":0,"next":{"args":{"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"contains"},"properties":{"name":"Website Home"},"type":"PageData"},"type":"Message","name":"and_"},"type":"Message","name":"equals"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"} },
+          "sets": [ { "field": "role", "value": { "text": "Admin", "source": {"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"} } } ],
+          "notes": "The rendered 'Search for Users:count' hides the constraint Role = Admin that the JSON shows: the first sign-up becomes admin only when no admin exists."
+        },
+        { "order": 4, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGNr", "target": "setup", "condition": { "text": "(Current User's Role is Admin) or ((Current User is logged in and (Website home URL doesn't contain prestart-fleet.bubbleapps.io)) and ((Search for Users:count - Search for Users:count) is 0))", "source": {"next":{"next":{"args":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"next":{"args":{"next":{"next":{"args":{"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"not_contains"},"properties":{"name":"Website Home"},"type":"PageData"},"next":{"args":{"next":{"next":{"args":{"next":{"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"},"1":{"key":"is_demo_boolean","value":true,"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"next":{"args":0,"type":"Message","name":"equals"},"type":"Message","name":"minus"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"type":"Message","name":"and_"},"type":"Message","name":"and_"},"type":"Message","name":"logged_in"},"type":"CurrentUser"},"type":"Message","name":"or_"},"type":"Message","name":"equals"},"type":"Message","name":"role_option_role"},"type":"CurrentUser"} } },
+        { "order": 5, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGNs", "target": "Nav message state" }
+      ],
+      "isCore": true,
+      "notes": "Sign-up plus profile and first-admin bootstrap. New users otherwise get no role and wait for an admin."
+    },
+    {
+      "key": "nav_forgot_password",
+      "name": "Send password reset email",
+      "sourceId": "bTGNt",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Forgot password? Ema", "sourceType": "ButtonClicked" },
+      "steps": [
+        { "order": 1, "type": "other", "sourceType": "SendPasswordResetEmail", "sourceId": "bTGNv", "target": "The address in Input Email", "notes": "Bubble's built-in password reset email." },
+        { "order": 2, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGNw", "target": "Nav message state" }
+      ]
+    },
+    {
+      "key": "nav_error_message",
+      "name": "Show workflow error in the popup",
+      "sourceId": "bTGNx",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "element_event", "element": "Nav", "sourceType": "OnError" },
+      "steps": [
+        { "order": 1, "type": "set_state", "sourceType": "SetCustomState", "sourceId": "bTGNz", "target": "Nav message state" }
+      ]
+    },
+    {
+      "key": "nav_log_out_demo",
+      "name": "Log out demo accounts on a live copy",
+      "sourceId": "bTGUn",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": {
+        "type": "user_event",
+        "sourceType": "LoggedIn",
+        "condition": { "text": "Current User's Is Demo and (Website home URL doesn't contain prestart-fleet.bubbleapps.io)", "source": {"next":{"next":{"args":{"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"not_contains"},"properties":{"name":"Website Home"},"type":"PageData"},"type":"Message","name":"and_"},"type":"Message","name":"is_demo_boolean"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "log_out", "sourceType": "LogOut", "sourceId": "bTGUp", "target": "Current user" },
+        { "order": 2, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGUq", "target": "index" }
+      ]
+    },
+    {
+      "key": "nav_redirect_to_claim",
+      "name": "Send the first real user to setup to claim admin",
+      "sourceId": "bTGVM",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": {
+        "type": "user_event",
+        "sourceType": "LoggedIn",
+        "condition": { "text": "(((Current User is logged in and (Website home URL doesn't contain prestart-fleet.bubbleapps.io)) and ((Search for Users:count - Search for Users:count) is 0)) and (Current User's Is Demo:formatted as number is 0)) and (This URL doesn't contain /setup)", "source": {"next":{"next":{"args":{"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"not_contains"},"properties":{"name":"Website Home"},"type":"PageData"},"next":{"args":{"next":{"next":{"args":{"next":{"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"},"1":{"key":"is_demo_boolean","value":true,"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"next":{"args":0,"type":"Message","name":"equals"},"type":"Message","name":"minus"},"type":"Message","name":"count"},"properties":{"constraints":{"0":{"key":"role_option_role","value":{"properties":{"option_set":"option.role","option_value":"admin"},"type":"OneOptionValue"},"constraint_type":"equals"}},"type_to_find":"user"},"type":"Search"},"next":{"args":{"next":{"next":{"next":{"args":0,"type":"Message","name":"equals"},"type":"Message","name":"format_boolean_number"},"type":"Message","name":"is_demo_boolean"},"type":"CurrentUser"},"next":{"args":{"next":{"args":"/setup","type":"Message","name":"not_contains"},"properties":{"name":"This Url"},"type":"PageData"},"type":"Message","name":"and_"},"type":"Message","name":"and_"},"type":"Message","name":"and_"},"type":"Message","name":"and_"},"type":"Message","name":"logged_in"},"type":"CurrentUser"} }
+      },
+      "steps": [
+        { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGVO", "target": "setup" }
+      ]
+    },
+    {
+      "key": "nav_go_history",
+      "name": "Go to history",
+      "sourceId": "bTGWt",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button History", "sourceType": "ButtonClicked" },
+      "steps": [ { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGWv", "target": "history" } ]
+    },
+    {
+      "key": "nav_go_account",
+      "name": "Go to account",
+      "sourceId": "bTGYq",
+      "scope": "reusable",
+      "page": "nav",
+      "trigger": { "type": "button_click", "element": "Button Account", "sourceType": "ButtonClicked" },
+      "steps": [ { "order": 1, "type": "navigate", "sourceType": "ChangePage", "sourceId": "bTGYs", "target": "account" } ]
+    },
+    {
+      "key": "backend_wipe_demo_data",
+      "name": "Wipe demo data",
+      "sourceId": "bTGUh",
+      "scope": "backend",
+      "trigger": {
+        "type": "api_endpoint",
+        "element": "wipe_demo_data",
+        "sourceType": "APIEvent",
+        "publicEndpoint": false,
+        "ignoresPermissions": true,
+        "condition": { "text": "Website home URL doesn't contain prestart-fleet.bubbleapps.io", "source": {"next":{"args":"prestart-fleet.bubbleapps.io","type":"Message","name":"not_contains"},"properties":{"name":"Website Home"},"type":"PageData"} }
+      },
+      "steps": [
+        { "order": 1, "type": "delete_list", "sourceType": "DeleteListOfThings", "sourceId": "bTGUj", "entity": "defect", "target": "Every defect (Search for Defects, no constraints)" },
+        { "order": 2, "type": "delete_list", "sourceType": "DeleteListOfThings", "sourceId": "bTGUk", "entity": "check", "target": "Every check (Search for Checks, no constraints)" },
+        { "order": 3, "type": "delete_list", "sourceType": "DeleteListOfThings", "sourceId": "bTGUl", "entity": "vehicle", "target": "Every vehicle (Search for Vehicles, no constraints)" },
+        { "order": 4, "type": "delete_list", "sourceType": "DeleteListOfThings", "sourceId": "bTGUm", "entity": "user", "target": "Users with is_demo = yes", "notes": "The rendered list is just 'Search for Users'; the JSON adds the constraint is_demo_boolean equals true. Trust the JSON." }
+      ],
+      "isCore": true,
+      "notes": "Scheduled from setup_claim_admin for 'now', not on a recurring schedule, so scope stays backend. Deletes all defects, checks and vehicles (demo or not) and all demo users. Checklist items and App Settings are kept. Runs with privacy rules ignored."
+    }
+  ],
+  "integrations": {
+    "plugins": [
+      {
+        "id": "apiconnector2",
+        "name": "API Connector",
+        "mapping": "built_in",
+        "replacement": "Typed fetch calls in the rebuilt app",
+        "notes": "Installed, but no workflow step calls it. list_types shows one API Connector type, 'text stream'. Call definitions cannot be read with the allowed tools."
+      }
+    ],
+    "apiCalls": [],
+    "email": "No custom email sending. The only email is Bubble's built-in password reset email (nav_forgot_password), which the rebuilt app's auth library replaces.",
+    "files": [
+      { "entity": "check", "field": "photo", "kind": "image" },
+      { "entity": "defect", "field": "photo", "kind": "image" }
+    ]
+  },
+  "unknowns": [
+    {
+      "where": "integrations / API Connector",
+      "what": "The API Connector plugin is installed, but its call list and hosts cannot be read with the allowed tools. No workflow step uses an API call; list_types shows one API Connector type ('text stream').",
+      "why": "API Connector definitions are not exposed by get_node or list_types. A person should check the editor's Plugins tab to confirm whether any calls exist and what they point at.",
+      "severity": "needs_review"
+    },
+    {
+      "where": "permissions / user",
+      "what": "No user privacy rule lists the built-in email field in its visible or searchable fields, even the 'Admins see all users' rule that otherwise shows every field.",
+      "why": "It is unclear whether Bubble's MCP leaves email out of viewableFields, or whether email really is hidden from admins and from the user themselves. This decides who may see email addresses in the rebuild.",
+      "severity": "needs_review"
+    },
+    {
+      "where": "pages / check, history",
+      "what": "The data sources of the vehicle dropdowns (check page 'Dropdown Choose your vehicle', history page 'Dropdown All vehicles') and the severity dropdown were not read.",
+      "why": "The reader only reads repeating group data sources. Whether off-road vehicles are hidden from drivers on the check page is therefore not known.",
+      "severity": "info"
+    },
+    {
+      "where": "pages / setup",
+      "what": "The data source of 'Group App Settings' (which App Settings record the setup page edits) was not read.",
+      "why": "Not a repeating group, so the reader does not read it. Assumed to be the single App Settings record.",
+      "severity": "info"
+    },
+    {
+      "where": "workflows / several",
+      "what": "Properties were not read for set-state, show, hide, reset, pause, refresh and plain navigation actions whose caption already says what they do (for example the Nav message texts, check_submit step 7, the demo_email and demo_role values for the workshop and admin demo buttons, and unconditional page changes).",
+      "why": "The reader allows skipping these. Any 'Only when' condition on those actions is therefore not recorded.",
+      "severity": "info"
+    }
+  ]
+}

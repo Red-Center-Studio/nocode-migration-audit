@@ -1,0 +1,12 @@
+{
+  "name": "nocode-migration-audit",
+  "owner": { "name": "Red Center Studio", "url": "https://redcenterstudio.com" },
+  "description": "Free, read-only audit of a no-code app before porting it to code.",
+  "plugins": [
+    {
+      "name": "nocode-migration-audit",
+      "source": "./",
+      "description": "Read-only audit of a no-code app before porting it to code. Writes a neutral app spec and a plain-language report."
+    }
+  ]
+}
