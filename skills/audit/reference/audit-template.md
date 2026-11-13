@@ -16,7 +16,7 @@ Write `audit.md` in plain language for a founder who is not a developer. Short s
 | Source | <platform>, app `<appname>`, version `<appVersion>` |
 | Read on | <date, UTC> |
 | Reader | nocode-migration-audit <version> |
-| MCP calls | <total> (all reads; 0 writes, 0 record reads) |
+| MCP calls | <total successful reads> (all reads; 0 writes, 0 record reads)<if any attempts were rate limited: "; <n> rate-limited attempts repeated"> |
 | Complexity | <score> (<band>) |
 
 ## What is in the app
@@ -50,7 +50,7 @@ Band: <Small / Medium / Large>.
 
 ## Who can do what
 
-<A role matrix table: one row per action that matters (view each data type, create or change each data type, open each guarded page), one column per role plus "no role" and "signed out". Fill it from privacy rules (view and search) and from page guards and workflow conditions (create and change). Mark any cell you inferred rather than read with "(inferred)". Then one sentence: privacy rules cover viewing and searching; create and change rights come from page guards and workflow conditions, and the rebuild should enforce them on the server.>
+<A role matrix table: one row per action that matters (view each data type, create or change each data type, open each guarded page), one column per role plus "no role" and "signed out". Fill it from privacy rules (view and search) and from page guards and workflow conditions (create and change). When an action has no condition of its own and only a page redirect keeps a role away from it, write "Yes (page guard only)" in the cells of the roles the guard lets through, and under the table say what the marking means: nothing on the workflow itself checks the role, so the rebuild must add that check on the server. Mark any other cell you inferred rather than read with "(inferred)". Then one sentence: privacy rules cover viewing and searching; create and change rights come from page guards and workflow conditions, and the rebuild should enforce them on the server.>
 
 ## Needs care
 
@@ -74,7 +74,7 @@ Band: <Small / Medium / Large>.
 
 ## How this audit was made
 
-<Two or three sentences: which tools were called and how many times each, that every call was a read, that no records were read, and that the full structure is in app-spec.json next to this file.>
+<Two or three sentences: which tools were called and how many times each (successful reads; if any attempts were rate limited and repeated, give that number separately), that every call was a read, that no records were read, and that the full structure is in app-spec.json next to this file.>
 ```
 
 ---

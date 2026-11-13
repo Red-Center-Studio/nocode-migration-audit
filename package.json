@@ -1,6 +1,6 @@
 {
   "name": "nocode-migration-audit",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Free audit skill for Claude: reads a no-code app and writes a neutral app spec and a plain-language audit report.",
   "license": "MIT",
   "private": true,

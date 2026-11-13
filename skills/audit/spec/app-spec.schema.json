@@ -200,7 +200,7 @@
             "required": ["name", "type"],
             "properties": {
               "name": { "type": "string" },
-              "type": { "type": "string", "description": "A field type or entity key." },
+              "type": { "type": "string", "description": "A field type, an entity key, or an enum key when the state holds an enum value." },
               "list": { "type": "boolean" }
             }
           }
@@ -271,7 +271,8 @@
           "required": ["type"],
           "properties": {
             "type": { "enum": ["button_click", "page_load", "input_change", "element_event", "error", "api_endpoint", "schedule", "data_change", "user_event", "other"] },
-            "element": { "type": "string" },
+            "element": { "type": "string", "description": "The element's name as the element tree shows it." },
+            "elementId": { "type": "string", "description": "The element's id in the source platform. Element names are not always unique; the id is." },
             "sourceType": { "type": "string" },
             "condition": { "$ref": "#/$defs/condition" },
             "publicEndpoint": { "type": "boolean" },

@@ -157,6 +157,17 @@ describe("app spec validation", () => {
     expect(validateSpec(bad).length).toBeGreaterThan(0);
   });
 
+  it("accepts a trigger elementId and an enum key as a page state type, and rejects an elementId that is not a string", () => {
+    const ok = minimal();
+    (ok.workflows[0].trigger as Record<string, unknown>).elementId = "bTGMi";
+    (ok.pages[1] as Record<string, unknown>).state = [{ name: "demo_role", type: "role", list: false }];
+    expect(validateSpec(ok)).toEqual([]);
+
+    const bad = minimal();
+    (bad.workflows[0].trigger as Record<string, unknown>).elementId = 42;
+    expect(validateSpec(bad).length).toBeGreaterThan(0);
+  });
+
   it("catches roles that point at a missing field", () => {
     const s = minimal();
     s.roles.field = "access_level";
