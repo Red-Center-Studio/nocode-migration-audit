@@ -87,6 +87,17 @@ Remove these rules when you want Claude to build or edit Bubble apps again.
 - It cannot open API Connector call definitions with read-only tools. It lists the calls it sees used in workflows and asks you to check the rest in the editor.
 - It is tested against the platform's MCP as it was on the date in each reader file. Platforms change; if output looks wrong, open an issue with the reader date and what you saw.
 
+## Want the move done for you?
+
+The report and the app spec are yours to use with any developer. If you would rather have the migration done for you,
+Red Center Studio rebuilds apps as code that runs in your own Cloudflare account:
+
+- [Website and app migrations](https://redcenterstudio.com/services/website-migrations/): the rebuild itself, with your
+  data, permissions and workflows carried over.
+- [Project Blueprint](https://redcenterstudio.com/services/project-blueprint/): turns this audit into a scoped plan,
+  architecture and fixed quote before any build starts.
+- Step-by-step guide: [How to audit your Bubble app before migrating](https://redcenterstudio.com/knowledge-base/audit-bubble-app-before-migrating/).
+
 ## For developers
 
 The spec schema has its own tests. With Node.js 22.18 or later:
