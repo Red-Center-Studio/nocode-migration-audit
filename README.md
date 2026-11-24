@@ -87,16 +87,22 @@ Remove these rules when you want Claude to build or edit Bubble apps again.
 - It cannot open API Connector call definitions with read-only tools. It lists the calls it sees used in workflows and asks you to check the rest in the editor.
 - It is tested against the platform's MCP as it was on the date in each reader file. Platforms change; if output looks wrong, open an issue with the reader date and what you saw.
 
-## Want the move done for you?
+## Want the move done automatically or by the studio?
 
-The report and the app spec are yours to use with any developer. If you would rather have the migration done for you,
-Red Center Studio rebuilds apps as code that runs in your own Cloudflare account:
+The report and the app spec are yours to use with any developer. If you would rather move automatically with verified code in your own Cloudflare account, or have the studio run the build for you:
 
-- [Website and app migrations](https://redcenterstudio.com/services/website-migrations/): the rebuild itself, with your
-  data, permissions and workflows carried over.
-- [Project Blueprint](https://redcenterstudio.com/services/project-blueprint/): turns this audit into a scoped plan,
-  architecture and fixed quote before any build starts.
+- [App Mover](https://redcenterstudio.com/app-mover/): builds and deploys your full UI, Workers backend, D1 database, and R2 files into your own Cloudflare account, starting with a free interactive 10-page preview.
+- [Data Migrator](https://redcenterstudio.com/app-mover/?tab=data#run): moves your Bubble® schema, records, R2 files, privacy rules, and 301 redirects with a free 1,000-record trial.
+- [Website and app migrations](https://redcenterstudio.com/services/website-migrations/) & [Project Blueprint](https://redcenterstudio.com/services/project-blueprint/): done-for-you migrations from `$499 USD` and scoped architecture blueprints.
 - Step-by-step guide: [How to audit your Bubble app before migrating](https://redcenterstudio.com/knowledge-base/audit-bubble-app-before-migrating/).
+
+### How it works / what it costs / what you own
+
+- **Free audit (this repo)**: read-only structural audit (`audit.md` + `app-spec.json`), zero write tools, runs locally.
+- **Data Migrator (USD)**: free 1,000-record / 250 MB / 7-day trial; 30-day passes `$39` Starter (10k records), `$69` Migration (100k records), `$199` Large (500k records).
+- **App Mover (USD)**: Small `$159` (up to 10 pages), Standard `$299` (up to 30 pages), Large `$389` (up to 80 pages; 81 to 250 add `$3`/page; over 250 custom quote), Developer mode `$45` (includes matching data pass, 2 rebuild rounds, and 30-day fix window).
+- **What you own**: TypeScript, React, Hono, and Drizzle code running in your own Cloudflare account, plus this MIT-licensed open-source audit skill.
+- **Security & contact**: Report vulnerabilities or questions to `hello@redcenterstudio.com`.
 
 ## For developers
 
