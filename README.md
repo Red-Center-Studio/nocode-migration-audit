@@ -93,7 +93,7 @@ The report and the app spec are yours to use with any developer. If you would ra
 
 - [App Mover](https://redcenterstudio.com/app-mover/): builds and deploys your full UI, Workers backend, D1 database, and R2 files into your own Cloudflare account, starting with a free interactive 10-page preview.
 - [Data Migrator](https://redcenterstudio.com/app-mover/?tab=data#run): moves your Bubble® schema, records, R2 files, privacy rules, and 301 redirects with a free 1,000-record trial.
-- [Website and app migrations](https://redcenterstudio.com/services/website-migrations/) & [Project Blueprint](https://redcenterstudio.com/services/project-blueprint/): done-for-you migrations from `$499 USD` and scoped architecture blueprints.
+- [Website and app migrations](https://redcenterstudio.com/services/website-migrations/) & [Project Blueprint](https://redcenterstudio.com/services/project-blueprint/): done-for-you app migrations from `$899 USD` and scoped architecture blueprints at `$499 USD`.
 - Step-by-step guide: [How to audit your Bubble app before migrating](https://redcenterstudio.com/knowledge-base/audit-bubble-app-before-migrating/).
 
 ### How it works / what it costs / what you own
