@@ -1,6 +1,6 @@
 # No-code app audit
 
-A free, read-only audit skill for Claude Code, from [Red Center Studio](https://redcenterstudio.com). Point it at an app you built on a no-code platform and it writes two files:
+A free, read-only audit skill for Claude Code, from [Red Center Studio](https://redcenterstudio.com). Run it before you [migrate a Bubble app to code on Cloudflare](https://redcenterstudio.com/app-mover/). Point it at an app you built on a no-code platform and it writes two files:
 
 - **`audit.md`**: a plain-language report. What is in the app, a complexity score, who can do what, what maps cleanly to code, what needs care, and what does not move automatically.
 - **`app-spec.json`**: the app's structure in neutral terms (data, option lists, permissions, pages, workflows, integrations), checked against a published [JSON Schema](skills/audit/spec/app-spec.schema.json). Any developer or tool can build from it.
